@@ -34,6 +34,19 @@ require("lualine").setup({
 		theme = "tokyonight",
 	},
 })
+-- colorscheme
+require("tokyonight").setup({
+	style = "moon",
+	light_style = "day",
+	transparent = true,
+	styles = {
+		comments = { italic = true },
+		keywords = { italic = true },
+		sidebars = "transparent",
+		floats = "transparent",
+	},
+})
+vim.cmd([[colorscheme tokyonight]])
 
 -- comment
 require("Comment").setup()

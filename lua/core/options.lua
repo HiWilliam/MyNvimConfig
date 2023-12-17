@@ -1,5 +1,7 @@
 local opt = vim.opt
 
+opt.syntax = "enable"
+
 -- 设置缩进长度
 opt.tabstop = 4
 opt.shiftwidth = 4
@@ -32,5 +34,3 @@ opt.smartcase = true
 
 -- 颜色
 opt.termguicolors = true
-vim.cmd([[colorscheme tokyonight-moon]])
--- vim.g.material_style = "deep ocean"

@@ -21,15 +21,17 @@ local new_maker = function(filepath, bufnr, opts)
 end
 
 -- press esc exit prewview directly
-local actions = require("telescope.actions")
 require("telescope").setup({
 	defaults = {
 		-- Default configuration for telescope goes here:
+		color_devicons = true,
 		-- config_key = value,
 		mappings = {
 			i = {
 				["<C-h>"] = "which_key",
-				["<Esc>"] = actions.close,
+			},
+			n = {
+				["q"] = require("telescope.actions").close,
 			},
 		},
 		buffer_previewer_maker = new_maker,

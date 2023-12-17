@@ -34,7 +34,7 @@ return require("packer").startup(function(use)
 	-- filetree
 	use({
 		"nvim-tree/nvim-tree.lua", --filetree
-		requires = { "nvim-tree/nvim-web-devicons" }, --icon
+		requires = { "nvim-tree/nvim-web-devicons", opt = true }, --icon
 	})
 	-- file sytax highlight support
 	use({
@@ -60,6 +60,7 @@ return require("packer").startup(function(use)
 		"hrsh7th/nvim-cmp",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-path", -- 文件路径
+		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-buffer",
 		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
