@@ -9,13 +9,63 @@ require("nvim-treesitter.configs").setup({
 
 	highlight = {
 		enable = true,
-		additional_vim_regex_highlighting = false,
 		use_languagetree = true,
 	},
-
-	rainbow = {
+	textobjects = {
 		enable = true,
-		extended_mode = true,
-		max_file_lines = nil,
+		lsp_interop = {
+			enable = true,
+			peek_definition_code = {
+				["DF"] = "@function.outer",
+			},
+		},
+		select = {
+			enable = true,
+			lookahead = true,
+			keymaps = {
+				["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
+				["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
+				["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
+				["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
+
+				["aa"] = { query = "@parameter.outer", desc = "Select outer part of a part/argument" },
+				["ia"] = { query = "@parameter.inner", desc = "Select inner part of a part/argument" },
+
+				["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
+				["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
+
+				["al"] = { query = "@loop.inner", desc = "Select outer part of a loop" },
+				["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
+
+				["af"] = { query = "@call.inner", desc = "Select outer part of a call" },
+				["if"] = { query = "@call.inner", desc = "Select inner part of a call" },
+
+				["am"] = { query = "@function.inner", desc = "Select outer part of a function" },
+				["im"] = { query = "@function.inner", desc = "Select inner part of a function" },
+
+				["ac"] = { query = "@class.inner", desc = "Select outer part of a class" },
+				["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
+			},
+		},
+		move = {
+			enable = true,
+			set_jump = true,
+			goto_next_start = {
+				["]m"] = "@function.outer",
+				["]]"] = "@class.outer",
+			},
+			goto_next_end = {
+				["]M"] = "@function.outer",
+				["]["] = "@class.outer",
+			},
+			goto_previous_start = {
+				["[m"] = "@function.outer",
+				["[["] = "@class.outer",
+			},
+			goto_previous_end = {
+				["[M"] = "@function.outer",
+				["[]"] = "@class.outer",
+			},
+		},
 	},
 })

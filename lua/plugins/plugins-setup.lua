@@ -36,12 +36,21 @@ return require("packer").startup(function(use)
 		"nvim-tree/nvim-tree.lua", --filetree
 		requires = { "nvim-tree/nvim-web-devicons", opt = true }, --icon
 	})
+
+	use("nvim-tree/nvim-web-devicons")
+
 	-- file sytax highlight support
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 	})
-	use("p00f/nvim-ts-rainbow") --extension treesitter
+	use({
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		after = "nvim-treesitter",
+		requires = "nvim-treesitter/nvim-treesitter",
+	})
+	use("HiPhish/rainbow-delimiters.nvim")
+	-- use("p00f/nvim-ts-rainbow") --extension treesitter
 
 	-- filesearch and floatwindow support
 	use({
@@ -65,6 +74,7 @@ return require("packer").startup(function(use)
 		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
 		"L3MON4D3/LuaSnip", -- snippets引擎，不装这个自动补全会出问题
+		"onsails/lspkind.nvim",
 		"windwp/nvim-autopairs", --符号补全
 	})
 

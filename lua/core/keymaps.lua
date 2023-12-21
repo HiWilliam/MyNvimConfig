@@ -5,7 +5,9 @@ local keymap = vim.keymap
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+--clear search highlight
 keymap.set("n", "<leader>nh", ":nohl<CR>")
+--copy current line
 keymap.set("n", "<leader>d", "<Esc>0v$yPj")
 
 -- PLUGINS
@@ -19,6 +21,7 @@ keymap.set("n", "<leader>r", builtin.live_grep, {})
 keymap.set("n", "<leader>b", builtin.buffers, {})
 keymap.set("n", "<leader>o", builtin.oldfiles, {})
 keymap.set("n", "<leader>h", builtin.help_tags, {})
+keymap.set("n", "<leader>l", "<Esc><cmd>lua vim.diagnostic.setloclist({open = false})<CR> | :Telescope loclist<CR>", {})
 
 keymap.set(
 	"n",
@@ -34,13 +37,7 @@ keymap.set(
 )
 keymap.set(
 	"n",
-	"lc",
-	"<cmd>lua require('telescope.builtin').commands(require('telescope.themes').get_dropdown())<cr>",
-	{}
-)
-keymap.set(
-	"n",
-	"lt",
+	"<leader>t",
 	"<cmd>lua require('telescope.builtin').treesitter(require('telescope.themes').get_dropdown())<cr>",
 	{}
 )

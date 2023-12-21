@@ -7,3 +7,15 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		end
 	end,
 })
+
+--set quickfix and location_list when open the file
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+	pattern = { "*" },
+	callback = function()
+		local opt = {
+			open = false,
+		}
+		vim.diagnostic.setqflist(opt)
+		vim.diagnostic.setloclist(opt)
+	end,
+})

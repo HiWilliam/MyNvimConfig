@@ -13,6 +13,9 @@ cmp.setup({
 			luasnip.lsp_expand(args.body)
 		end,
 	},
+	performance = {
+		max_view_entries = 20,
+	},
 	window = {
 		documentation = cmp.config.window.bordered(),
 	},
@@ -50,6 +53,30 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "path" },
 	}),
+	view = {
+		entries = { name = "custom" },
+		docs = { auto_open = true },
+	},
+	formatting = {
+		-- fields = { "kind", "abbr", "menu" },
+		format = function(entry, vim_item)
+			local kind = require("lspkind").cmp_format({
+				mode = "symbol",
+				-- menu = {
+				-- 	buffer = "[Buffer]",
+				-- 	nvim_lsp = "[LSP]",
+				-- 	luasnip = "[LuaSnip]",
+				-- 	nvim_lua = "[Lua]",
+				-- 	latex_symbols = "[Latex]",
+				-- },
+			})(entry, vim_item)
+
+			-- local strings = vim.split(kind.kind, "%s", { trimempty = true })
+			-- kind.kind = string.format(" %s ", (strings[1] or ""))
+			-- kind.menu = string.format("%s %s", (strings[2] or ""), kind.menu)
+			return kind
+		end,
+	},
 })
 
 -- Set configuration for specific filetype.
@@ -68,6 +95,18 @@ cmp.setup.cmdline({ "/", "?" }, {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(":", {
+	formatting = {
+		format = function(entry, vim_item)
+			return require("lspkind").cmp_format({
+				with_text = false,
+				mode = "symbol",
+				menu = {
+					cmdline = "[CMD]",
+					path = "[PATH]",
+				},
+			})(entry, vim_item)
+		end,
+	},
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 })
