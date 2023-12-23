@@ -8,6 +8,11 @@ require("nvim-tree").setup({
 		enable = true,
 		update_root = true,
 	},
+	view = {
+		float = {
+			enable = true,
+		},
+	},
 	renderer = {
 		root_folder_label = false,
 		highlight_git = false,
@@ -16,7 +21,6 @@ require("nvim-tree").setup({
 		indent_markers = {
 			enable = false,
 		},
-
 		icons = {
 			show = {
 				file = true,

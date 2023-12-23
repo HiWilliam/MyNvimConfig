@@ -13,6 +13,7 @@ cmp.setup({
 			luasnip.lsp_expand(args.body)
 		end,
 	},
+	preselect = cmp.PreselectMode.None,
 	performance = {
 		max_view_entries = 20,
 	},
