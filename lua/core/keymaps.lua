@@ -61,6 +61,6 @@ keymap.set("n", "<leader>/", comment.toggle.linewise.current, {})
 keymap.set("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>")
 
 -- nvterm
-keymap.set("n", "<A-i>", function()
+keymap.set({ "n", "t" }, "<A-i>", function()
 	require("nvterm.terminal").toggle("float")
 end, {})

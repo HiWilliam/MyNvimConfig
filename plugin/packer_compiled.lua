@@ -84,6 +84,12 @@ _G.packer_plugins = {
     path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["alpha-nvim"] = {
+    config = { "\27LJ\2\n`\0\0\5\0\5\0\n6\0\0\0'\2\1\0B\0\2\0029\0\2\0006\2\0\0'\4\3\0B\2\2\0029\2\4\2B\0\2\1K\0\1\0\vconfig\26alpha.themes.startify\nsetup\nalpha\frequire\0" },
+    loaded = true,
+    path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/start/alpha-nvim",
+    url = "https://github.com/goolord/alpha-nvim"
+  },
   ["bufferline.nvim"] = {
     loaded = true,
     path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
@@ -230,15 +236,46 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
+  },
+  ["vim-dadbod"] = {
+    loaded = true,
+    path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/start/vim-dadbod",
+    url = "https://github.com/tpope/vim-dadbod"
+  },
+  ["vim-dadbod-completion"] = {
+    after_files = { "/Users/hiwilliam/.local/share/nvim/site/pack/packer/opt/vim-dadbod-completion/after/plugin/vim_dadbod_completion.lua", "/Users/hiwilliam/.local/share/nvim/site/pack/packer/opt/vim-dadbod-completion/after/plugin/vim_dadbod_completion.vim" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/opt/vim-dadbod-completion",
+    url = "https://github.com/kristijanhusak/vim-dadbod-completion"
+  },
+  ["vim-dadbod-ui"] = {
+    loaded = true,
+    path = "/Users/hiwilliam/.local/share/nvim/site/pack/packer/start/vim-dadbod-ui",
+    url = "https://github.com/kristijanhusak/vim-dadbod-ui"
   }
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+try_loadstring("\27LJ\2\n`\0\0\5\0\5\0\n6\0\0\0'\2\1\0B\0\2\0029\0\2\0006\2\0\0'\4\3\0B\2\2\0029\2\4\2B\0\2\1K\0\1\0\vconfig\26alpha.themes.startify\nsetup\nalpha\frequire\0", "config", "alpha-nvim")
+time([[Config for alpha-nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-treesitter ]]
 vim.cmd [[ packadd nvim-treesitter-textobjects ]]
 time([[Sequenced loading]], false)
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType sql ++once lua require("packer.load")({'vim-dadbod-completion'}, { ft = "sql" }, _G.packer_plugins)]]
+vim.cmd [[au FileType mysql ++once lua require("packer.load")({'vim-dadbod-completion'}, { ft = "mysql" }, _G.packer_plugins)]]
+vim.cmd [[au FileType plsql ++once lua require("packer.load")({'vim-dadbod-completion'}, { ft = "plsql" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

@@ -93,7 +93,22 @@ return require("packer").startup(function(use)
 	-- terminal in nvim
 	use("NvChad/nvterm")
 
-	if packer_bootstrap then
+	-- database tools
+	use("tpope/vim-dadbod")
+	use({
+		"kristijanhusak/vim-dadbod-ui",
+		requires = { { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" } } },
+	})
+	-- use("~/WorkSpace/Lua/database.nvim")
+
+	use({
+		"goolord/alpha-nvim",
+		requires = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("alpha").setup(require("alpha.themes.startify").config)
+		end,
+	})
+	if pqacker_bootstrap then
 		require("packer").sync()
 	end
 end)
