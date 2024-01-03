@@ -99,15 +99,12 @@ return require("packer").startup(function(use)
 		"kristijanhusak/vim-dadbod-ui",
 		requires = { { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" } } },
 	})
-	-- use("~/WorkSpace/Lua/database.nvim")
 
 	use({
 		"goolord/alpha-nvim",
 		requires = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("alpha").setup(require("alpha.themes.startify").config)
-		end,
 	})
+
 	if pqacker_bootstrap then
 		require("packer").sync()
 	end

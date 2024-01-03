@@ -92,3 +92,8 @@ require("lspkind").init({
 		TypeParameter = "",
 	},
 })
+
+-- alpha nvim setup
+local alpha_config = require("alpha.themes.startify").config
+alpha_config.opts.margin = 50
+require("alpha").setup(alpha_config)
