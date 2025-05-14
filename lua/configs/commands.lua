@@ -22,9 +22,16 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
 
 -- 启动kratos服务
 vim.api.nvim_create_user_command("GoRunServer", function()
-	vim.cmd("TermExec cmd='go run cmd/*manager/main.go cmd/*manager/wire_gen.go -conf ./configs/config-test.yaml'")
+	local term = require("toggleterm")
+	term.toggle(2)
+	term.exec_command(
+		'2TermExec cmd="go run cmd/*manager/main.go cmd/*manager/wire_gen.go -conf=./configs/config-test.yaml"',
+		2
+	)
 end, {})
 
 vim.api.nvim_create_user_command("GoStopServer", function()
-	vim.cmd("TermExec cmd='<C-c>'<CR>")
+	local term = require("toggleterm")
+	term.toggle(2)
+	term.exec_command('2TermExec cmd="<C-c>"<CR>', 2)
 end, {})

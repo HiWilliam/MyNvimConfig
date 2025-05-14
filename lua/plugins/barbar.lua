@@ -37,8 +37,8 @@ return {
 			{ "<A-l>", "<cmd>BufferLast<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
 			{ "<A-n>", "<cmd>BufferNext<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
 			{ "<A-p>", "<cmd>BufferPin<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
-			{ "<A-c>", "<cmd>w | BufferClose<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
-			{ "<A-a>", "<cmd>w | BufferCloseAllButCurrent<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
+			{ "<A-c>", "<cmd>BufferClose<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
+			{ "<A-a>", "<cmd>BufferCloseAllButCurrent<CR>", { silent = true, noremap = true }, { "n", "i", "v" } },
 		},
 	},
 }

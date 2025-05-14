@@ -2,7 +2,12 @@ return {
 	"ray-x/go.nvim",
 	lazy = true,
 	ft = { "go", "gomod" },
-	keys = {},
+	keys = {
+		{ "gbt", "<cmd>GoBreakToggle<CR>", { silent = true, noremap = true }, "n" },
+		{ "gbs", "<cmd>GoBreakSave<CR>", { silent = true, noremap = true }, "n" },
+		{ "gbl", "<cmd>GoBreakLoad<CR>", { silent = true, noremap = true }, "n" },
+		{ "gdh", "<cmd>GoD<CR>", { silent = true, noremap = true }, "n" },
+	},
 	dependencies = { -- optional packages
 		"ray-x/guihua.lua",
 		"theHamsta/nvim-dap-virtual-text",
@@ -12,12 +17,6 @@ return {
 			goimports = "gopls",
 			fillstruct = "gopls",
 			tag_options = "json=",
-			run = {
-				use_process_group = true,
-				tags = function()
-					return vim.fn.getcwd()
-				end,
-			},
 		})
 
 		require("nvim-dap-virtual-text").setup()
