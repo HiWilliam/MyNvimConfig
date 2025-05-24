@@ -22,7 +22,8 @@ km.set("n", "<leader>gs", builtin.git_status, {})
 -- show the change blocks
 km.set("n", "<leader>gu", "<Esc><cmd> Gitsigns setqflist all open=false <CR> | <cmd>Telescope quickfix<CR>", {})
 km.set("n", "<leader>l", "<Esc><cmd>lua vim.diagnostic.setloclist({open = false})<CR> | <cmd>Telescope loclist<CR>", {})
-km.set("n", "<leader>q", "<Esc><cmd>lua vim.diagnostic.setqflist({open = false})<CR> | <cmd>Telescope quickfix<CR>", {})
+--km.set("n", "<leader>q", "<Esc><cmd>lua vim.diagnostic.setqflist({open = false})<CR> | <cmd>Telescope quickfix<CR>", {})
+km.set("n", "<leader>q", "<Esc><cmd>lua vim.diagnostic.setqflist()<CR>", {})
 
 km.set(
 	"n",

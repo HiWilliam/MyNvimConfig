@@ -109,7 +109,6 @@ return {
 							shadow = true,
 							analysisProgressReporting = false,
 						},
-						staticcheck = true,
 					},
 				},
 			})

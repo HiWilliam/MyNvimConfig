@@ -23,15 +23,120 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
 -- 启动kratos服务
 vim.api.nvim_create_user_command("GoRunServer", function()
 	local term = require("toggleterm")
-	term.toggle(2)
-	term.exec_command(
-		'2TermExec cmd="go run cmd/*manager/main.go cmd/*manager/wire_gen.go -conf=./configs/config-test.yaml"',
-		2
-	)
+	local path = vim.trim(vim.fn.system("git rev-parse --show-toplevel"))
+	local basename = vim.fn.fnamemodify(path, ":t")
+	local output = string.format("%s/build/%s", path, basename)
+	local project = string.format("%s/cmd/%s", basename, basename)
+	local command =
+		string.format("TermExec cmd='go build -gcflags=\"all=-N -l\" -o  %s %s' direction='float'", output, project)
+	term.exec_command(command, 3)
+	local run_command =
+		string.format("TermExec cmd='%s -conf %s/configs/config-test.yaml' direction='float'", output, path)
+	term.exec_command(run_command, 3)
 end, {})
 
+local dap = require("dap")
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local conf = require("telescope.config").values
+
+-- 停止当前项目的运行进程
 vim.api.nvim_create_user_command("GoStopServer", function()
-	local term = require("toggleterm")
-	term.toggle(2)
-	term.exec_command('2TermExec cmd="<C-c>"<CR>', 2)
+	--	local term = require("toggleterm")
+	--	term.exec_command("TermExec cmd='pgrep -f $(git rev-parse --show-toplevel | xargs basename) |xargs kill -9'", 3)
+	local basename = vim.trim(vim.fn.system("git rev-parse --show-toplevel | xargs basename"))
+	local handle = io.popen(string.format("pgrep -af %s | grep -v pgrep", basename))
+	local processes = {}
+	for line in handle:lines() do
+		local pid, cmd = line:match("^(%d+)%s+(.*)$")
+		if pid and cmd then
+			table.insert(processes, {
+				pid = pid,
+				display = string.format("PID: %-6s CMD: %s", pid, cmd),
+			})
+		end
+	end
+	handle:close()
+
+	pickers
+		.new({}, {
+			prompt_title = "Pick And Stop",
+			finder = finders.new_table({
+				results = processes,
+				entry_maker = function(entry)
+					return {
+						value = entry.pid,
+						display = entry.display,
+						ordinal = entry.display,
+					}
+				end,
+			}),
+			sorter = conf.generic_sorter({}),
+			attach_mappings = function(_, map)
+				map("i", "<CR>", function(prompt_bufnr)
+					local selection = require("telescope.actions.state").get_selected_entry()
+					require("telescope.actions").close(prompt_bufnr)
+					local ok, output = pcall(vim.fn.system, string.format("kill -9 %d", tonumber(selection.value)))
+					if not ok then
+						print(output)
+					end
+				end)
+				return true
+			end,
+		})
+		:find()
 end, {})
+
+local function telescope_pick_process()
+	-- 获取进程列表
+	local handle = io.popen("ps aux | grep -E '*build*' | grep -v grep")
+	local processes = {}
+	for line in handle:lines() do
+		local pid, cmd = line:match("^%S+%s+(%d+)%s+(.+)")
+		if pid and cmd then
+			table.insert(processes, {
+				pid = pid,
+				display = string.format("PID %-6s %s", pid, cmd:sub(50, 100)),
+			})
+		end
+	end
+	handle:close()
+
+	-- 显示 Telescope 选择器
+	pickers
+		.new({}, {
+			prompt_title = "Attach to Go Process",
+			finder = finders.new_table({
+				results = processes,
+				entry_maker = function(entry)
+					return {
+						value = entry.pid,
+						display = entry.display,
+						ordinal = entry.display,
+					}
+				end,
+			}),
+			sorter = conf.generic_sorter({}),
+			attach_mappings = function(_, map)
+				map("i", "<CR>", function(prompt_bufnr)
+					local selection = require("telescope.actions.state").get_selected_entry()
+					require("telescope.actions").close(prompt_bufnr)
+					dap.run({
+						name = "AttachProcess",
+						type = "go",
+						request = "attach",
+						mode = "local",
+						processId = tonumber(selection.value),
+						showLog = true,
+						trace = "verbose",
+						dlvFlags = { "--check-go-version=false" },
+					})
+				end)
+				return true
+			end,
+		})
+		:find()
+end
+
+-- 绑定快捷键
+vim.keymap.set("n", "<leader>dt", telescope_pick_process, { desc = "[D]ebug [T]elescope Pick" })

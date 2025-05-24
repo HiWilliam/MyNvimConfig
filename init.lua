@@ -19,6 +19,7 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 })
-require("configs.keymaps")
+
 require("configs.commands")
+require("configs.keymaps")
 require("configs.options")
