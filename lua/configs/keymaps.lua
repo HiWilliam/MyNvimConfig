@@ -16,14 +16,11 @@ km.set("n", "<leader>f", builtin.find_files, {})
 km.set("n", "<leader>r", builtin.live_grep, {})
 km.set("n", "<leader>b", builtin.buffers, {})
 km.set("n", "<leader>o", builtin.oldfiles, {})
-km.set("n", "<leader>gc", builtin.git_commits, {})
-km.set("n", "<leader>gs", builtin.git_status, {})
 
 -- show the change blocks
 km.set("n", "<leader>gu", "<Esc><cmd> Gitsigns setqflist all open=false <CR> | <cmd>Telescope quickfix<CR>", {})
-km.set("n", "<leader>l", "<Esc><cmd>lua vim.diagnostic.setloclist({open = false})<CR> | <cmd>Telescope loclist<CR>", {})
---km.set("n", "<leader>q", "<Esc><cmd>lua vim.diagnostic.setqflist({open = false})<CR> | <cmd>Telescope quickfix<CR>", {})
-km.set("n", "<leader>q", "<Esc><cmd>lua vim.diagnostic.setqflist()<CR>", {})
+km.set("n", "<leader>l", builtin.loclist, {})
+km.set("n", "<leader>q", builtin.diagnostics, {})
 
 km.set(
 	"n",

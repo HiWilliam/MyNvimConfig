@@ -102,4 +102,8 @@ return {
 			"DiffviewOpen",
 		},
 	},
+	{
+		"OXY2DEV/markview.nvim",
+		lazy = false,
+	},
 }

@@ -35,16 +35,13 @@ return {
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
 
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+			capabilities.textDocument.semanticTokens.full = true
+			local cmpCapabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 			capabilities.textDocument.completion.completionItem = {
-				documentationFormat = { "markdown", "plaintext" },
-				snippetSupport = true,
-				preselectSupport = true,
-				insertReplaceSupport = true,
-				labelDetailsSupport = true,
-				deprecatedSupport = true,
 				commitCharactersSupport = true,
-				tagSupport = { valueSet = { 1 } },
+				tagSupport = { valueSet = { "deprecated" } },
 				resolveSupport = {
 					properties = {
 						"documentation",
@@ -58,11 +55,9 @@ return {
 
 			lspconfig.lua_ls.setup({
 				on_attach = on_attach,
-				capabilities = capabilities,
+				capabilities = cmpCapabilities,
 				workspace = {
 					library = {
-						["/usr/local/lib/lua"] = true,
-						[vim.fn.expand("$LUA_CPATH")] = true,
 						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 						[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 						[vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/packer/start/?")] = true,
@@ -74,12 +69,12 @@ return {
 
 			lspconfig.vimls.setup({
 				on_attach = on_attach,
-				capabilities = capabilities,
+				capabilities = cmpCapabilities,
 			})
 
 			lspconfig.pyright.setup({
 				on_attach = on_attach,
-				capabilities = capabilities,
+				capabilities = cmpCapabilities,
 			})
 
 			lspconfig.helm_ls.setup({
@@ -94,11 +89,12 @@ return {
 
 			lspconfig.gopls.setup({
 				on_attach = on_attach,
-				capabilities = capabilities,
+				capabilities = cmpCapabilities,
 				cmd = { "gopls" },
 				filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				settings = {
 					gopls = {
+						semanticTokens = true,
 						usePlaceholders = true,
 						completeUnimported = true,
 						experimentalPostfixCompletions = true,
@@ -109,6 +105,17 @@ return {
 							shadow = true,
 							analysisProgressReporting = false,
 						},
+					},
+				},
+			})
+
+			lspconfig.buf_ls.setup({
+				cmd = { "buf", "beta", "lsp" },
+				filetypes = { "proto" },
+				settings = {
+					include_path = {
+						"./proto",
+						"./third-party/google/api",
 					},
 				},
 			})
