@@ -1,117 +1,166 @@
-return {
+local env = Env.theme
+local flavour = env.colorvariant or "mocha"
+local transbg = env.transparentbg
+
+if not env.darkmode then
+	flavour = "macchiato"
+	transbg = false
+end
+
+local M = {
 	"catppuccin/nvim",
-	lazy = false,
 	name = "catppuccin",
-	priority = 1000,
-	opts = {
-		flavour = "macchiato",
-		background = "mocha",
+	event = "VeryLazy",
+	init = function()
+		if env.colorscheme == "catppuccin" then
+			vim.g.catppuccin_flavour = flavour
+			vim.cmd("colorscheme catppuccin")
+		end
+	end,
+}
+
+M.opts = function()
+	local opts = {
+		transparent_background = transbg,
 		term_colors = true,
-		transparent_background = true,
-		no_italic = true,
+		dim_inactive = {
+			percentage = 0.15,
+			enabled = true,
+			shade = "dark",
+		},
+		background = {
+			light = "latte",
+			dark = "mocha",
+		},
+		styles = {
+			conditionals = { "italic" },
+			comments = { "italic" },
+		},
 		integrations = {
-			cmp = true,
-			gitsigns = true,
-			nvimtree = true,
 			treesitter = true,
-			mason = true,
-			telescope = {
+			coc_nvim = false,
+			lsp_trouble = true,
+			cmp = true,
+			lsp_saga = true,
+			leap = true, -- test
+			gitgutter = false,
+			gitsigns = true,
+			telescope = true,
+			which_key = true,
+			dashboard = true,
+			neogit = false,
+			vim_sneak = false,
+			fern = false,
+			barbar = false,
+			bufferline = true,
+			markdown = true,
+			lightspeed = false,
+			ts_rainbow = true,
+			hop = true,
+			notify = true,
+			telekasten = false,
+			symbols_outline = false,
+			mini = true,
+			navic = false,
+			neotree = true,
+			noice = true,
+			fidget = true,
+			nvimtree = {
 				enabled = true,
+				show_root = false,
+				transparent_panel = transbg,
+			},
+			dap = {
+				enabled = false,
+				enable_ui = false,
 			},
 			indent_blankline = {
-				enabled = true,
-				scope_color = "",
 				colored_indent_levels = false,
-			},
-			styles = {
-				comments = { "italic" },
+				enabled = true,
 			},
 			native_lsp = {
 				enabled = true,
 				virtual_text = {
+					information = { "italic" },
+					warnings = { "italic" },
 					errors = { "italic" },
 					hints = { "italic" },
-					warnings = { "italic" },
-					information = { "italic" },
 				},
 				underlines = {
+					information = { "underline" },
+					warnings = { "underline" },
 					errors = { "underline" },
 					hints = { "underline" },
-					warnings = { "underline" },
-					information = { "underline" },
-				},
-				inlay_hints = {
-					background = true,
 				},
 			},
 		},
-		custom_highlights = function(C)
-			return {
-				CmpBorder = { fg = "#3e4145" },
-				Cursor = { fg = "#cc9900", bg = "#339966" },
-				CursorLine = { bg = "#252525" },
+	}
 
-				CmpItemKindSnippet = { fg = C.base, bg = C.mauve },
-				CmpItemKindKeyword = { fg = C.base, bg = C.red },
-				CmpItemKindText = { fg = C.base, bg = C.teal },
-				CmpItemKindMethod = { fg = C.base, bg = C.blue },
-				CmpItemKindConstructor = { fg = C.base, bg = C.blue },
-				CmpItemKindFunction = { fg = C.base, bg = C.blue },
-				CmpItemKindFolder = { fg = C.base, bg = C.blue },
-				CmpItemKindModule = { fg = C.base, bg = C.blue },
-				CmpItemKindConstant = { fg = C.base, bg = C.peach },
-				CmpItemKindField = { fg = C.base, bg = C.green },
-				CmpItemKindProperty = { fg = C.base, bg = C.green },
-				CmpItemKindEnum = { fg = C.base, bg = C.green },
-				CmpItemKindUnit = { fg = C.base, bg = C.green },
-				CmpItemKindClass = { fg = C.base, bg = C.yellow },
-				CmpItemKindVariable = { fg = C.base, bg = C.flamingo },
-				CmpItemKindFile = { fg = C.base, bg = C.blue },
-				CmpItemKindInterface = { fg = C.base, bg = C.yellow },
-				CmpItemKindColor = { fg = C.base, bg = C.red },
-				CmpItemKindReference = { fg = C.base, bg = C.red },
-				CmpItemKindEnumMember = { fg = C.base, bg = C.red },
-				CmpItemKindStruct = { fg = C.base, bg = C.blue },
-				CmpItemKindValue = { fg = C.base, bg = C.peach },
-				CmpItemKindEvent = { fg = C.base, bg = C.blue },
-				CmpItemKindOperator = { fg = C.base, bg = C.blue },
-				CmpItemKindTypeParameter = { fg = C.base, bg = C.blue },
-				CmpItemKindCopilot = { fg = C.base, bg = C.teal },
-			}
-		end,
-		color_overrides = {
-			macchiato = {
-				rosewater = "#F5B8AB",
-				flamingo = "#F29D9D",
-				pink = "#AD6FF7",
-				mauve = "#FF8F40",
-				red = "#E66767",
-				maroon = "#EB788B",
-				peach = "#FAB770",
-				yellow = "#FACA64",
-				green = "#70CF67",
-				teal = "#4CD4BD",
-				sky = "#61BDFF",
-				sapphire = "#4BA8FA",
-				blue = "#00BFFF",
-				lavender = "#00BBCC",
-				text = "#C1C9E6",
-				subtext1 = "#A3AAC2",
-				subtext0 = "#8E94AB",
-				overlay2 = "#7D8296",
-				overlay1 = "#676B80",
-				overlay0 = "#464957",
-				surface2 = "#3A3D4A",
-				surface1 = "#2F313D",
-				surface0 = "#1D1E29",
-				base = "#0b0b12",
-				mantle = "#11111a",
-				crust = "#191926",
+	if transbg then
+		local colors = require("catppuccin.palettes").get_palette()
+		local user_colors = require("tools.colors").palette
+		colors.none = "NONE"
+
+		opts.custom_highlights = {
+			Comment = {
+				fg = colors.overlay1,
 			},
-		},
-	},
-	config = function(_, opts)
-		require("catppuccin").setup(opts)
-		vim.api.nvim_command("colorscheme catppuccin-macchiato")
-	end,
-}
+			LineNr = {
+				fg = colors.overlay1,
+			},
+			DiagnosticVirtualTextError = {
+				bg = colors.none,
+				fg = user_colors.red,
+			},
+			DiagnosticVirtualTextWarn = {
+				bg = colors.none,
+				fg = user_colors.yellow,
+			},
+			DiagnosticVirtualTextInfo = {
+				bg = colors.none,
+			},
+			DiagnosticVirtualTextHint = {
+				bg = colors.none,
+			},
+		}
+
+		if flavour == "mocha" then
+			opts.custom_highlights = vim.tbl_extend("force", opts.custom_highlights, {
+				TelescopeBorder = {
+					fg = user_colors.yellow,
+				},
+				BufferLineErrorSelected = {
+					fg = user_colors.red,
+					bold = true,
+				},
+				BufferLineWarningSelected = {
+					fg = user_colors.yellow,
+					bold = true,
+				},
+				BufferLineInfoSelected = {
+					fg = user_colors.cyan,
+					bold = true,
+				},
+				NvimTreePopup = {
+					fg = user_colors.yellow,
+				},
+				NvimTreeFolderIcon = {
+					fg = user_colors.yellow,
+				},
+				NvimTreeFolderName = {
+					fg = user_colors.fg,
+				},
+				NavicText = {
+					fg = user_colors.cyan,
+				},
+				NavicSeparator = {
+					fg = "#8087A2",
+				},
+			})
+		end
+	end
+
+	return opts
+end
+
+return M
