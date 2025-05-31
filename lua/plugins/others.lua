@@ -95,13 +95,7 @@ return {
 			"TmuxNavigatePrevious",
 		},
 	},
-	{
-		"sindrets/diffview.nvim",
-		lazy = true,
-		cmd = {
-			"DiffviewOpen",
-		},
-	},
+
 	{
 		"OXY2DEV/markview.nvim",
 		lazy = false,

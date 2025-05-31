@@ -25,3 +25,4 @@ require("lazy").setup("plugins", {
 require("configs.commands")
 require("configs.keymaps")
 require("configs.options")
+require("configs.events")
