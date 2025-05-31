@@ -1,124 +1,126 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		config = function()
-			require("mason").setup({
-				ui = {
-					icons = {
-						package_installed = "✓",
-						package_pending = "➜",
-						package_uninstalled = "✗",
-					},
-				},
-			})
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = true,
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "gopls", "vimls" },
-			})
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"folke/neodev.nvim",
-		},
-		config = function()
-			-- lsp common settings
-			local on_attach = function(client)
-				client.server_capabilities.documentFormattingProvider = false
-				client.server_capabilities.documentRangeFormattingProvider = false
-			end
+    {
+        "williamboman/mason.nvim",
+        lazy = false,
+        opts = {
+            ensure_installed = {
+                "lua-language-server",
+                "shellcheck",
+            },
+        },
+        config = function(_, opts)
+            require("mason").setup({
+                ui = {
+                    icons = {
+                        package_installed = "✓",
+                        package_pending = "➜",
+                        package_uninstalled = "✗",
+                    },
+                },
+            })
 
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			capabilities.textDocument.completion.completionItem = {
-				documentationFormat = { "markdown", "plaintext" },
-				snippetSupport = true,
-				preselectSupport = true,
-				insertReplaceSupport = true,
-				labelDetailsSupport = true,
-				deprecatedSupport = true,
-				commitCharactersSupport = true,
-				tagSupport = { valueSet = { 1 } },
-				resolveSupport = {
-					properties = {
-						"documentation",
-						"detail",
-						"additionalTextEdits",
-					},
-				},
-			}
-			require("neodev").setup({})
-			local lspconfig = require("lspconfig")
+            local mr = require("mason-registry")
+            local function ensure_installed()
+                for _, tool in ipairs(opts.ensure_installed) do
+                    local p = mr.get_package(tool)
+                    if not p:is_installed() then
+                        p:install()
+                    end
+                end
+            end
+            if mr.refresh then
+                mr.refresh(ensure_installed)
+            else
+                ensure_installed()
+            end
+        end,
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "saghen/blink.cmp",
+        },
+        config = function()
+            vim.diagnostic.config({
+                underline = false,
+                signs = false,
+                update_in_insert = false,
+                virtual_text = { spacing = 2, prefix = "●" },
+                severity_sort = true,
+                float = {
+                    border = "rounded",
+                },
+            })
 
-			lspconfig.lua_ls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				workspace = {
-					library = {
-						["/usr/local/lib/lua"] = true,
-						[vim.fn.expand("$LUA_CPATH")] = true,
-						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-						[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-						[vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/packer/start/?")] = true,
-					},
-					maxPreload = 100000,
-					preloadFileSize = 10000,
-				},
-			})
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            local lspconfig = require("lspconfig")
 
-			lspconfig.vimls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			lspconfig.shellcheck.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			lspconfig.helm_ls.setup({
-				settings = {
-					["helm-ls"] = {
-						yamlls = {
-							path = "yaml-language-server",
-						},
-					},
-				},
-			})
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                workspace = {
+                    library = {
+                        ["/usr/local/lib/lua"] = true,
+                        [vim.fn.expand("$LUA_CPATH")] = true,
+                        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                        [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+                        [vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/packer/start/?")] = true,
+                    },
+                    maxPreload = 100000,
+                    preloadFileSize = 10000,
+                },
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
+            })
 
-			lspconfig.intelephense.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				cmd = { "intelephense", "--stdio" },
-				filetypes = { "php" },
-				settings = {},
-			})
+            lspconfig.vimls.setup({
+                capabilities = capabilities,
+            })
+            lspconfig.shellcheck.setup({
+                capabilities = capabilities,
+            })
+            lspconfig.helm_ls.setup({
+                settings = {
+                    ["helm-ls"] = {
+                        yamlls = {
+                            path = "yaml-language-server",
+                        },
+                    },
+                },
+            })
 
-			lspconfig.gopls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				cmd = { "gopls" },
-				filetypes = { "go", "gomod", "gowork", "gotmpl" },
-				settings = {
-					gopls = {
-						usePlaceholders = true,
-						completeUnimported = true,
-						experimentalPostfixCompletions = true,
-						analyses = {
-							bools = true,
-							printf = true,
-							unusedparams = true,
-							shadow = true,
-						},
-						staticcheck = true,
-					},
-				},
-			})
-		end,
-	},
-	{ "towolf/vim-helm", ft = "helm" },
+            lspconfig.intelephense.setup({
+                capabilities = capabilities,
+                cmd = { "intelephense", "--stdio" },
+                filetypes = { "php" },
+                settings = {},
+            })
+
+            lspconfig.gopls.setup({
+                capabilities = capabilities,
+                cmd = { "gopls" },
+                filetypes = { "go", "gomod", "gowork", "gotmpl" },
+                settings = {
+                    gopls = {
+                        usePlaceholders = true,
+                        completeUnimported = true,
+                        experimentalPostfixCompletions = true,
+                        analyses = {
+                            bools = true,
+                            printf = true,
+                            unusedparams = true,
+                            shadow = true,
+                        },
+                        staticcheck = true,
+                    },
+                },
+            })
+        end,
+    },
+    { "towolf/vim-helm", ft = "helm" },
 }

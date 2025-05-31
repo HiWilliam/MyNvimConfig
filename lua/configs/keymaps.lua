@@ -9,6 +9,7 @@ km.set("n", "<leader>d", "<Esc>0v$yPj")
 
 -- comment
 km.set("v", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>")
+km.set("n", "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise.current()<CR>")
 
 -- telescope
 local builtin = require("telescope.builtin")
@@ -26,23 +27,23 @@ km.set("n", "<leader>l", "<Esc><cmd>lua vim.diagnostic.setloclist({open = false}
 km.set("n", "<leader>q", "<Esc><cmd>lua vim.diagnostic.setqflist({open = false})<CR> | :Telescope quickfix<CR>", {})
 
 km.set(
-	"n",
-	"gi",
-	"<cmd>lua require('telescope.builtin').lsp_implementations(require('telescope.themes').get_dropdown())<cr>",
-	{}
+    "n",
+    "gi",
+    "<cmd>lua require('telescope.builtin').lsp_implementations(require('telescope.themes').get_dropdown())<cr>",
+    {}
 )
 km.set(
-	"n",
-	"gr",
-	"<cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_dropdown())<cr>",
-	{}
+    "n",
+    "gr",
+    "<cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_dropdown())<cr>",
+    {}
 )
 
 km.set(
-	"n",
-	"<leader>c",
-	"<cmd>lua require('telescope.builtin').commands(require('telescope.themes').get_dropdown())<cr>",
-	{}
+    "n",
+    "<leader>c",
+    "<cmd>lua require('telescope.builtin').commands(require('telescope.themes').get_dropdown())<cr>",
+    {}
 )
 --km.set("n", "hn", "<Esc>:lua vim.opt.number=false vim.opt.relativenumber=false<CR>", { silent = true })
 --km.set("n", "sn", "<Esc>:lua vim.opt.number=true vim.opt.relativenumber=true<CR>", { silent = true })
@@ -56,33 +57,33 @@ km.set("t", "<C-k>", [[<C-\><C-n><C-W>k]], { noremap = true, silent = true })
 km.set("t", "<C-l>", [[<C-\><C-n><C-W>l]], { noremap = true, silent = true })
 
 km.set(
-	{ "n", "i", "v" },
-	"<C-h>",
-	"<cmd>TmuxNavigateLeft<cr>",
-	{ remap = true, silent = true, desc = "Move to Left Window" }
+    { "n", "i", "v" },
+    "<C-h>",
+    "<cmd>TmuxNavigateLeft<cr>",
+    { remap = true, silent = true, desc = "Move to Left Window" }
 )
 km.set(
-	{ "n", "i", "v" },
-	"<C-j>",
-	"<cmd>TmuxNavigateDown<cr>",
-	{ remap = true, silent = true, desc = "Move to Lower Window" }
+    { "n", "i", "v" },
+    "<C-j>",
+    "<cmd>TmuxNavigateDown<cr>",
+    { remap = true, silent = true, desc = "Move to Lower Window" }
 )
 km.set(
-	{ "n", "i", "v" },
-	"<C-k>",
-	"<cmd>TmuxNavigateUp<cr>",
-	{ remap = true, silent = true, desc = "Move to Upper Window" }
+    { "n", "i", "v" },
+    "<C-k>",
+    "<cmd>TmuxNavigateUp<cr>",
+    { remap = true, silent = true, desc = "Move to Upper Window" }
 )
 km.set(
-	{ "n", "i", "v" },
-	"<C-l>",
-	"<Esc><cmd>TmuxNavigateRight<cr>",
-	{ remap = true, silent = true, desc = "Move to Right Window" }
+    { "n", "i", "v" },
+    "<C-l>",
+    "<Esc><cmd>TmuxNavigateRight<cr>",
+    { remap = true, silent = true, desc = "Move to Right Window" }
 )
 
 km.set(
-	{ "n" },
-	"<leader>db",
-	":lua require('dap').toggle_breakpoint()<CR>",
-	{ noremap = true, silent = true, desc = "Toggle Dap BreakPoint" }
+    { "n" },
+    "<leader>db",
+    ":lua require('dap').toggle_breakpoint()<CR>",
+    { noremap = true, silent = true, desc = "Toggle Dap BreakPoint" }
 )

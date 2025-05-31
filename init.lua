@@ -1,6 +1,4 @@
-require("configs.keymaps")
-require("configs.commands")
-require("configs.options")
+vim.g.mapleader = " "
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -22,3 +20,6 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 })
+require("configs.keymaps")
+require("configs.commands")
+require("configs.options")

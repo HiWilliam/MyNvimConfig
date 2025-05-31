@@ -1,6 +1,6 @@
 return {
 	{
-		"jose-elias-alvarez/null-ls.nvim",
+		"nvimtools/none-ls.nvim",
 		config = function()
 			local null_ls = require("null-ls")
 			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -9,8 +9,8 @@ return {
 					null_ls.builtins.formatting.gofmt,
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.goimports,
-					null_ls.builtins.diagnostics.shellcheck.with({ diagnostics_format = "[#{c}] #{m} (#{s})" }),
-					null_ls.builtins.code_actions.shellcheck,
+					--null_ls.builtins.diagnostics.shellcheck.with({ diagnostics_format = "[#{c}] #{m} (#{s})" }),
+					--null_ls.builtins.code_actions.shellcheck,
 				},
 				on_attach = function(client, bufnr)
 					if client.supports_method("textDocument/formatting") then
