@@ -34,28 +34,33 @@ return {
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
-
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities.textDocument.completion.completionItem.snippetSupport = true
-			capabilities.textDocument.semanticTokens.full = true
-			local cmpCapabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-			capabilities.textDocument.completion.completionItem = {
-				commitCharactersSupport = true,
-				tagSupport = { valueSet = { "deprecated" } },
-				resolveSupport = {
-					properties = {
-						"documentation",
-						"detail",
-						"additionalTextEdits",
+			local capabilities = {
+				textDocument = {
+					foldingRange = {
+						dynamicRegistration = false,
+						lineFoldingOnly = true,
+					},
+				},
+				completion = {
+					completionItem = {
+						commitCharactersSupport = true,
+						tagSupport = { valueSet = { "deprecated" } },
+						resolveSupport = {
+							properties = {
+								"documentation",
+								"detail",
+								"additionalTextEdits",
+							},
+						},
 					},
 				},
 			}
-			require("neodev").setup({})
-			local lspconfig = require("lspconfig")
+			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
+			local lspconfig = require("lspconfig")
 			lspconfig.lua_ls.setup({
 				on_attach = on_attach,
-				capabilities = cmpCapabilities,
+				capabilities = capabilities,
 				workspace = {
 					library = {
 						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
@@ -69,12 +74,12 @@ return {
 
 			lspconfig.vimls.setup({
 				on_attach = on_attach,
-				capabilities = cmpCapabilities,
+				capabilities = capabilities,
 			})
 
 			lspconfig.pyright.setup({
 				on_attach = on_attach,
-				capabilities = cmpCapabilities,
+				capabilities = capabilities,
 			})
 
 			lspconfig.helm_ls.setup({
@@ -89,7 +94,7 @@ return {
 
 			lspconfig.gopls.setup({
 				on_attach = on_attach,
-				capabilities = cmpCapabilities,
+				capabilities = capabilities,
 				cmd = { "gopls" },
 				filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				settings = {

@@ -7,6 +7,18 @@
 5. 语法高亮/全局主题
 6. 其他插件，例如lualine、comment等
 
+### 初始话步骤
+
+1. 初始化基础环境
+```shell
+
+apt install ripgrep lua5.1 luarocks
+
+apt install rustup
+
+rustup default nightly
+```
+
 ### 待优化的配置
 1. 目前代码高亮颜色还不是很满意，暂时用了tokyonight主题。
 2. 背景透明-设置Iterm的背景图，tokyonight主题设置transparent,详见others.lua。也可以设置hightlight，不过实现比较麻烦
