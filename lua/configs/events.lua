@@ -42,8 +42,9 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
 })
 
 vim.api.nvim_create_autocmd("User", {
-	pattern = "DiffviewDiffBufWinLeave", -- 当 diffview 窗口关闭时触发
+	pattern = "DiffviewViewClosed", -- 当 diffview 窗口关闭时触发
 	callback = function()
+		vim.fn.system("echo 1111 > text")
 		-- 检查当前文件是否有冲突标记
 		local content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
 		if not content:match("<<<<<<<") then -- 如果没有冲突标记（已解决）
@@ -51,6 +52,8 @@ vim.api.nvim_create_autocmd("User", {
 			-- 或者使用系统 git 命令：
 			local file = vim.fn.expand("%")
 			print(file)
+
+			vim.fn.system("echo " .. file .. " > text")
 			vim.fn.system("git add " .. file)
 		end
 	end,
