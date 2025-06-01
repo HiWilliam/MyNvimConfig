@@ -5,6 +5,7 @@ return {
 		"rafamadriz/friendly-snippets",
 		"nvim-tree/nvim-web-devicons",
 		"onsails/lspkind.nvim",
+		"xzbdmw/colorful-menu.nvim",
 	},
 
 	-- use a release tag to download pre-built binaries
@@ -62,13 +63,13 @@ return {
 
 			["<Tab>"] = {
 				function(cmp)
-					return cmp.select_next({ auto_insert = false })
+					return cmp.select_next({ auto_insert = true })
 				end,
 				"fallback",
 			},
 			["<S-Tab>"] = {
 				function(cmp)
-					return cmp.select_prev({ auto_insert = false })
+					return cmp.select_prev({ auto_insert = true })
 				end,
 				"fallback",
 			},
@@ -122,35 +123,16 @@ return {
 				border = "rounded",
 				max_height = 20,
 				draw = {
-					columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+					-- We don't need label_description now because label and label_description are already
+					-- combined together in label by colorful-menu.nvim.
+					columns = { { "kind_icon" }, { "label", gap = 1 } },
 					components = {
-						kind_icon = {
-							ellipsis = false,
+						label = {
 							text = function(ctx)
-								local icon = ctx.kind_icon
-								if icon then
-									-- Do nothing
-								elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
-									local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-									if dev_icon then
-										icon = dev_icon
-									end
-								else
-									icon = require("lspkind").symbolic(ctx.kind, { mode = "symbol" })
-								end
-								return string.format("%s %s", icon, ctx.icon_gap)
+								return require("colorful-menu").blink_components_text(ctx)
 							end,
 							highlight = function(ctx)
-								local hl = ctx.kind_hl
-								if hl then
-									-- Do nothing
-								elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
-									local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-									if dev_icon then
-										hl = dev_hl
-									end
-								end
-								return hl
+								return require("colorful-menu").blink_components_highlight(ctx)
 							end,
 						},
 					},
