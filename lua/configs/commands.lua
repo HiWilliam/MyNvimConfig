@@ -140,3 +140,12 @@ end
 
 -- 绑定快捷键
 vim.keymap.set("n", "<leader>dt", telescope_pick_process, { desc = "[D]ebug [T]elescope Pick" })
+
+vim.api.nvim_create_autocmd("TermEnter", {
+	callback = function()
+		-- If the terminal window is lazygit, we do not make changes to avoid clashes
+		if string.find(vim.api.nvim_buf_get_name(0), "lazygit") then
+			vim.keymap.del("t", "<esc>")
+		end
+	end,
+})

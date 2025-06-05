@@ -29,6 +29,7 @@ return {
 			"folke/neodev.nvim",
 		},
 		config = function()
+			--require("neodev").setup()
 			-- lsp common settings
 			local on_attach = function(client)
 				client.server_capabilities.documentFormattingProvider = false
@@ -61,14 +62,27 @@ return {
 			lspconfig.lua_ls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-				workspace = {
-					library = {
-						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-						[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-						[vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/packer/start/?")] = true,
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT",
+						},
+						diagnostics = {
+							globals = {
+								"vim",
+								"require",
+							},
+						},
+						workspace = {
+							library = vim.api.nvim_get_runtime_file("", true),
+							checkThirdParty = false,
+							maxPreload = 2000,
+							preloadFileSize = 1000,
+						},
+						telemetry = {
+							enable = false,
+						},
 					},
-					maxPreload = 100000,
-					preloadFileSize = 10000,
 				},
 			})
 
