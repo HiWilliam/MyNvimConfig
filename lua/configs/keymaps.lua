@@ -6,6 +6,8 @@ km.set("n", "<leader>nh", ":nohl<CR>")
 --copy current line
 km.set("n", "<leader>d", "<Esc>0v$yPj")
 
+km.set("n", "<leader>td", "<Esc><cmd>TodoList<Cr>", { silent = true, noremap = true, desc = "任务清单" })
+
 -- comment
 km.set({ "n", "v" }, "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>")
 

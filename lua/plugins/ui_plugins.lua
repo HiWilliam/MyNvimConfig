@@ -54,4 +54,20 @@ return {
 			})
 		end,
 	},
+	{
+		"stevearc/dressing.nvim",
+		config = function()
+			require("dressing").setup({
+				select = {
+					backend = { "telescope", "builtin" }, -- 可选 Telescope 风格
+					builtin = {
+						relative = "cursor", -- 基于光标位置弹出
+						win_options = {
+							winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+						},
+					},
+				},
+			})
+		end,
+	},
 }

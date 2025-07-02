@@ -53,15 +53,6 @@ return {
 				},
 				buffer_previewer_maker = new_maker,
 			},
-			pickers = {
-				live_grep = {
-					layout_strategy = "bottom_pane",
-					layout_config = {
-						width = 0.6,
-						preview_width = 0.6,
-					},
-				},
-			},
 		})
 	end,
 }

@@ -2,11 +2,14 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = true,
-
+		dependencies = { "OXY2DEV/markview.nvim" },
 		build = ":TSUpdate",
 		config = function()
 			local configs = require("nvim-treesitter.configs")
 			configs.setup({
+				modules = {},
+				ignore_install = { "vimdoc" },
+				auto_install = true,
 				ensure_installed = { "go", "gomod", "json", "lua", "vim", "vimdoc" },
 				sync_install = false,
 				highlight = {
@@ -20,26 +23,6 @@ return {
 						enable = true,
 						peek_definition_code = {
 							["DF"] = "@function.outer",
-						},
-					},
-					move = {
-						enable = true,
-						set_jump = true,
-						goto_next_start = {
-							["]m"] = "@function.outer",
-							["]]"] = "@class.outer",
-						},
-						goto_next_end = {
-							["]M"] = "@function.outer",
-							["]["] = "@class.outer",
-						},
-						goto_previous_start = {
-							["[m"] = "@function.outer",
-							["[["] = "@class.outer",
-						},
-						goto_previous_end = {
-							["[M"] = "@function.outer",
-							["[]"] = "@class.outer",
 						},
 					},
 				},
