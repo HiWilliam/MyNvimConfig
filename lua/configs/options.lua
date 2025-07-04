@@ -46,3 +46,5 @@ vim.g.tmux_navigator_no_mappings = 0
 -- 折叠
 opt.foldenable = true
 opt.foldmethod = "manual"
+
+vim.api.nvim_set_hl(0, "@foo.bar", { link = "Identifier" })

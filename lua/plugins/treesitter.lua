@@ -2,7 +2,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = true,
-		dependencies = { "OXY2DEV/markview.nvim" },
+		dependencies = {
+			"OXY2DEV/markview.nvim",
+		},
 		build = ":TSUpdate",
 		config = function()
 			local configs = require("nvim-treesitter.configs")
@@ -15,6 +17,18 @@ return {
 				highlight = {
 					enable = true,
 					additional_vim_regex_highlighting = false,
+				},
+				locals = {
+					enable = true,
+				},
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "gnn",
+						node_incremental = "grn",
+						scope_incremental = "grc",
+						node_decremental = "grm",
+					},
 				},
 				indent = { enable = true },
 				textobjects = {

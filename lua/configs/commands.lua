@@ -46,6 +46,10 @@ vim.api.nvim_create_user_command("GoStopServer", function()
 	--	term.exec_command("TermExec cmd='pgrep -f $(git rev-parse --show-toplevel | xargs basename) |xargs kill -9'", 3)
 	local basename = vim.trim(vim.fn.system("git rev-parse --show-toplevel | xargs basename"))
 	local handle = io.popen(string.format("pgrep -af %s | grep -v pgrep", basename))
+	if handle == nil then
+		vim.notify(string.format("暂无%s项目进程", basename), vim.log.levels.INFO)
+		return
+	end
 	local processes = {}
 	for line in handle:lines() do
 		local pid, cmd = line:match("^(%d+)%s+(.*)$")
@@ -90,6 +94,11 @@ end, {})
 local function telescope_pick_process()
 	-- 获取进程列表
 	local handle = io.popen("ps aux | grep -E '*build*' | grep -v grep")
+	if handle == nil then
+		vim.notify("暂无Go运行进程", vim.log.levels.INFO)
+		return
+	end
+
 	local processes = {}
 	for line in handle:lines() do
 		local pid, cmd = line:match("^%S+%s+(%d+)%s+(.+)")
@@ -137,7 +146,6 @@ local function telescope_pick_process()
 		})
 		:find()
 end
-
 -- 绑定快捷键
 vim.keymap.set("n", "<leader>dt", telescope_pick_process, { desc = "[D]ebug [T]elescope Pick" })
 
@@ -149,5 +157,15 @@ vim.api.nvim_create_autocmd("TermEnter", {
 		else
 			vim.api.nvim_set_keymap("t", "<esc>", "<C-\\><C-n>", { silent = true, noremap = true })
 		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "Outline",
+	callback = function(args)
+		vim.bo[args.buf].buftype = "nofile" -- 非文件缓冲区
+		vim.bo[args.buf].modifiable = false -- 不可修改
+		vim.bo[args.buf].swapfile = false -- 禁止交换文件
+		vim.bo[args.buf].bufhidden = "wipe" -- 关闭时自动清除
 	end,
 })
