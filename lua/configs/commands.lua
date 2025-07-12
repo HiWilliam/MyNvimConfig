@@ -30,8 +30,7 @@ vim.api.nvim_create_user_command("GoRunServer", function()
 	local command =
 		string.format("TermExec cmd='go build -gcflags=\"all=-N -l\" -o  %s %s' direction='float'", output, project)
 	term.exec_command(command, 3)
-	local run_command =
-		string.format("TermExec cmd='%s -conf %s/configs/config-test.yaml' direction='float'", output, path)
+	local run_command = string.format("TermExec cmd='%s -conf %s/configs/config*.yaml' direction='float'", output, path)
 	term.exec_command(run_command, 3)
 end, {})
 

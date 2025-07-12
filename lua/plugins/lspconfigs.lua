@@ -124,6 +124,9 @@ return {
 							shadow = true,
 							analysisProgressReporting = false,
 						},
+						telemetry = {
+							enabled = false, -- 关键！禁用遥测
+						},
 					},
 				},
 			})
