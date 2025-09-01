@@ -133,7 +133,7 @@ return {
 			},
 		},
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "snippets", "buffer", "llm" },
 			providers = {
 				llm = {
 					name = "llm",

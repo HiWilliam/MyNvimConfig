@@ -78,3 +78,5 @@ km.set(
 	"<Esc><cmd>TmuxNavigateRight<cr>",
 	{ remap = true, silent = true, desc = "Move to Right Window" }
 )
+
+km.set({ "n", "i" }, "lt", "<cmd>LLMSessionToggle<cr>", { desc = "toggleAi会话", silent = true, noremap = true })
