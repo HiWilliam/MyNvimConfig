@@ -132,6 +132,7 @@ return {
 				show_on_blocked_trigger_characters = {},
 			},
 		},
+		signature = { enabled = true },
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer", "llm" },
 			providers = {

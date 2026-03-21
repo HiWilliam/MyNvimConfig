@@ -63,6 +63,16 @@ return {
 				"<cmd>ToggleTerm direction=tab size=50<CR>",
 				"n",
 			},
+			{
+				"t1",
+				"<cmd>1ToggleTerm direction=float size=50<CR>",
+				"n",
+			},
+			{
+				"t3",
+				"<cmd>3ToggleTerm direction=float size=50<CR>",
+				"n",
+			},
 		},
 
 		version = "*",
@@ -115,4 +125,31 @@ return {
 			},
 		},
 	},
+	-- {
+	-- 	"dense-analysis/ale",
+	-- 	config = function()
+	-- 		-- Configuration goes here.
+	-- 		local g = vim.g
+	-- 		g.ale_enabled = 1
+	-- 		g.ale_completion_enabled = 1
+	-- 		g.ale_fix_on_save = 1
+	-- 		g.ale_lint_on_text_changed = "normal"
+	-- 		g.ale_lint_on_insert_leave = 1
+	-- 		g.ale_lint_on_enter = 1
+	--
+	-- 		g.ale_linters = {
+	-- 			go = { "gopls" },
+	-- 		}
+	-- 		g.ale_go_gopls_options = "-remote=auto"
+	-- 		g.ale_go_gopls_init_options = {
+	-- 			["ui.diagnostic.staticcheck"] = true,
+	-- 			analyses = {
+	-- 				unusedparams = true,
+	-- 				unusedwrite = true,
+	-- 				fieldalignment = false,
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
+	{ "towolf/vim-helm", ft = "helm" },
 }

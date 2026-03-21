@@ -17,6 +17,7 @@ return {
 			goimports = "gopls",
 			fillstruct = "gopls",
 			tag_options = "json=",
+			dap_debug = false,
 		})
 
 		require("nvim-dap-virtual-text").setup()
