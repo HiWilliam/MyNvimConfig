@@ -10,7 +10,8 @@ end
 local M = {
 	"catppuccin/nvim",
 	name = "catppuccin",
-	event = "VeryLazy",
+	priority = 1000, -- 确保高优先级，优先加载
+	--event = "VeryLazy",
 	init = function()
 		if env.colorscheme == "catppuccin" then
 			vim.g.catppuccin_flavour = flavour

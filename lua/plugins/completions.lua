@@ -10,7 +10,7 @@ return {
 	},
 
 	version = "1.*",
-	build = "cargo build --release -Znext-lockfile-bump",
+	build = "cargo +nightly build --release -Znext-lockfile-bump",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
