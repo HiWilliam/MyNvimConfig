@@ -22,6 +22,9 @@ require("lazy").setup("plugins", {
 	},
 })
 
+-- Load colorscheme after plugins are loaded
+vim.cmd.colorscheme("catppuccin")
+
 require("configs.commands")
 require("configs.keymaps")
 require("configs.options")

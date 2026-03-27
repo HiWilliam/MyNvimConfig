@@ -39,7 +39,6 @@ opt.termguicolors = true
 -- NvimTree Loaded
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.cmd.colorscheme = "catppuccin"
 
 vim.g.tmux_navigator_no_mappings = 0
 

@@ -110,6 +110,13 @@ return {
 		lazy = true,
 	},
 	{
+		"mbbill/undotree",
+		keys = {
+			{ "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" },
+		},
+	},
+
+	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		opts = {
@@ -124,6 +131,21 @@ return {
 				desc = "Buffer Local Keymaps (which-key)",
 			},
 		},
+		config = function()
+			local wk = require("which-key")
+			wk.setup({
+				preset = "helix",
+			})
+			-- Add group descriptions
+			wk.add({
+				{ "<leader>f", group = "find" },
+				{ "<leader>g", group = "git" },
+				{ "<leader>l", group = "lsp/llm" },
+				{ "<leader>n", group = "no-highlight" },
+				{ "<leader>t", group = "toggle/terminal" },
+				{ "<leader>u", group = "undo" },
+			})
+		end,
 	},
 	-- {
 	-- 	"dense-analysis/ale",

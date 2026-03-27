@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		lazy = true,
+		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
 			"OXY2DEV/markview.nvim",
 		},

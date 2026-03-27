@@ -3,19 +3,6 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 	},
-	opts = {
-		defaults = {
-			sorting_strategy = "ascending",
-			layout_strategy = "flex",
-			layout_config = {
-				horizontal = { preview_cutoff = 80, preview_width = 0.55 },
-				vertical = { mirror = true, preview_cutoff = 25 },
-				prompt_position = "top",
-				width = 0.87,
-				height = 0.80,
-			},
-		},
-	},
 	config = function()
 		-- dont preview binary file
 		local previewers = require("telescope.previewers")
@@ -41,8 +28,16 @@ return {
 		-- press esc exit prewview directly
 		require("telescope").setup({
 			defaults = {
+				sorting_strategy = "ascending",
+				layout_strategy = "flex",
+				layout_config = {
+					horizontal = { preview_cutoff = 80, preview_width = 0.55 },
+					vertical = { mirror = true, preview_cutoff = 25 },
+					prompt_position = "top",
+					width = 0.87,
+					height = 0.80,
+				},
 				color_devicons = true,
-				-- config_key = value,
 				mappings = {
 					i = {
 						["<C-h>"] = "which_key",

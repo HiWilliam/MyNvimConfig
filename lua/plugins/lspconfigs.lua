@@ -16,7 +16,7 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        lazy = true,
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = { "lua_ls", "gopls", "vimls" },
@@ -28,6 +28,7 @@ return {
         dependencies = {
             "folke/neodev.nvim",
         },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("neodev").setup({})
             -- lsp common settings
@@ -90,11 +91,13 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
             })
+            vim.lsp.enable("vimls")
 
             vim.lsp.config("pyright", {
                 on_attach = on_attach,
                 capabilities = capabilities,
             })
+            vim.lsp.enable("pyright")
 
             vim.lsp.config("helm_ls", {
                 settings = {
@@ -105,6 +108,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable("helm_ls")
 
             vim.lsp.config("gopls", {
                 on_attach = on_attach,
