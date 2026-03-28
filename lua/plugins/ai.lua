@@ -17,7 +17,7 @@ return {
 		instructions_file = "avante.md",
 		-- for example
 		provider = "glm5",
-		auto_suggestion_provider = "deepseek",
+		auto_suggestion_provider = "glm5",
 		providers = {
 			deepseek = {
 				__inherited_from = "openai",
@@ -36,10 +36,21 @@ return {
 				endpoint = "https://coding.dashscope.aliyuncs.com/v1",
 				model = "glm-5",
 				api_key_name = "CODE_PLAN_API_KEY",
-				timeout = 30000, -- Timeout in milliseconds
+				timeout = 120000, -- Timeout in milliseconds
 				extra_request_body = {
 					temperature = 0.2,
 					max_tokens = 8192,
+				},
+			},
+            qwen = {
+				__inherited_from = "openai",
+				endpoint = "https://coding.dashscope.aliyuncs.com/v1",
+				model = "qwen3.5-plus",
+				api_key_name = "CODE_PLAN_API_KEY",
+				timeout = 30000, -- Timeout in milliseconds
+				extra_request_body = {
+					temperature = 0.2,
+					max_tokens = 65536,
 				},
 			},
 		},
