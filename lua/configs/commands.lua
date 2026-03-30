@@ -90,27 +90,50 @@ vim.api.nvim_create_user_command("GoStopServer", function()
 		:find()
 end, {})
 
-local function telescope_pick_process()
-	-- 获取进程列表
-	local handle = io.popen("ps aux | grep -E '*build*' | grep -v grep")
+--- 使用 Telescope 选择 Go 进程并 Attach 调试
+local function telescope_pick_go_process()
+	-- 获取当前项目名称作为过滤条件
+	local project_name = vim.trim(vim.fn.system("git rev-parse --show-toplevel 2>/dev/null | xargs basename 2>/dev/null"))
+
+	-- 构建进程列表命令
+	local cmd
+	if project_name ~= "" then
+		-- 优先显示当前项目相关的进程
+		cmd = string.format("pgrep -af '%s' | grep -v 'pgrep\\|grep'", project_name)
+	else
+		-- 显示所有 Go 相关进程
+		cmd = "ps aux | grep -E '\\.go$|go run|go build|main$' | grep -v grep"
+	end
+
+	local handle = io.popen(cmd)
 	if handle == nil then
-		vim.notify("暂无Go运行进程", vim.log.levels.INFO)
+		vim.notify("无法获取进程列表", vim.log.levels.WARN)
 		return
 	end
 
 	local processes = {}
 	for line in handle:lines() do
-		local pid, cmd = line:match("^%S+%s+(%d+)%s+(.+)")
-		if pid and cmd then
+		local pid, cmd_str = line:match("^(%d+)%s+(.+)$")
+		if pid and cmd_str then
+			-- 截断过长的命令行
+			local display_cmd = cmd_str
+			if #display_cmd > 80 then
+				display_cmd = display_cmd:sub(1, 77) .. "..."
+			end
 			table.insert(processes, {
 				pid = pid,
-				display = string.format("PID %-6s %s", pid, cmd:sub(50, 100)),
+				cmd = cmd_str,
+				display = string.format("PID: %-6s │ %s", pid, display_cmd),
 			})
 		end
 	end
 	handle:close()
 
-	-- 显示 Telescope 选择器
+	if #processes == 0 then
+		vim.notify("没有找到可调试的 Go 进程", vim.log.levels.INFO)
+		return
+	end
+
 	pickers
 		.new({}, {
 			prompt_title = "Attach to Go Process",
@@ -130,7 +153,7 @@ local function telescope_pick_process()
 					local selection = require("telescope.actions.state").get_selected_entry()
 					require("telescope.actions").close(prompt_bufnr)
 					dap.run({
-						name = "AttachProcess",
+						name = "Attach to Process",
 						type = "go",
 						request = "attach",
 						mode = "local",
@@ -145,8 +168,12 @@ local function telescope_pick_process()
 		})
 		:find()
 end
+
+-- 注册命令
+vim.api.nvim_create_user_command("GoDebugAttach", telescope_pick_go_process, { desc = "Attach to Go Process" })
+
 -- 绑定快捷键
---vim.keymap.set("n", "<leader>dt", telescope_pick_process, { desc = "[D]ebug [T]elescope Pick" })
+vim.keymap.set("n", "<leader>dA", telescope_pick_go_process, { desc = "Attach to Go Process", nowait = true })
 
 vim.api.nvim_create_autocmd("TermEnter", {
 	callback = function()

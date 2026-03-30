@@ -2,12 +2,6 @@ return {
 	"ray-x/go.nvim",
 	lazy = true,
 	ft = { "go", "gomod" },
-	keys = {
-		{ "gbt", "<cmd>GoBreakToggle<CR>", { silent = true, noremap = true }, "n" },
-		{ "gbs", "<cmd>GoBreakSave<CR>", { silent = true, noremap = true }, "n" },
-		{ "gbl", "<cmd>GoBreakLoad<CR>", { silent = true, noremap = true }, "n" },
-		{ "gdh", "<cmd>GoD<CR>", { silent = true, noremap = true }, "n" },
-	},
 	dependencies = { -- optional packages
 		"ray-x/guihua.lua",
 		"theHamsta/nvim-dap-virtual-text",
@@ -17,7 +11,9 @@ return {
 			goimports = "gopls",
 			fillstruct = "gopls",
 			tag_options = "json=",
+			-- 禁用 go.nvim 的 dap 功能，使用 nvim-dap-go
 			dap_debug = false,
+			dap_debug_keymap = false,
 		})
 
 		require("nvim-dap-virtual-text").setup()

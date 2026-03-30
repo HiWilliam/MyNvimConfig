@@ -3,17 +3,38 @@ return {
 		"mfussenegger/nvim-dap",
 		event = "VeryLazy",
 		keys = {
+			-- 基础调试操作
 			{
 				"<leader>dt",
 				function()
 					require("dap").toggle_breakpoint()
 				end,
-				"n",
-				{
-					desc = "Toggle Breakpoint",
-					nowait = true,
-					remap = false,
-				},
+				desc = "Toggle Breakpoint",
+				nowait = true,
+			},
+			{
+				"<leader>dT",
+				function()
+					require("dap").clear_breakpoints()
+				end,
+				desc = "Clear All Breakpoints",
+				nowait = true,
+			},
+			{
+				"<leader>dC",
+				function()
+					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+				end,
+				desc = "Conditional Breakpoint",
+				nowait = true,
+			},
+			{
+				"<leader>dL",
+				function()
+					require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+				end,
+				desc = "Log Point",
+				nowait = true,
 			},
 			{
 				"<leader>dc",
@@ -21,11 +42,7 @@ return {
 					require("dap").continue()
 				end,
 				desc = "Continue",
-				{
-					nowait = true,
-					remap = false,
-				},
-				"n",
+				nowait = true,
 			},
 			{
 				"<leader>di",
@@ -33,11 +50,7 @@ return {
 					require("dap").step_into()
 				end,
 				desc = "Step Into",
-				{
-					nowait = true,
-					remap = false,
-				},
-				"n",
+				nowait = true,
 			},
 			{
 				"<leader>do",
@@ -46,7 +59,6 @@ return {
 				end,
 				desc = "Step Over",
 				nowait = true,
-				remap = false,
 			},
 			{
 				"<leader>du",
@@ -54,11 +66,15 @@ return {
 					require("dap").step_out()
 				end,
 				desc = "Step Out",
-				{
-					nowait = true,
-					remap = false,
-				},
-				"n",
+				nowait = true,
+			},
+			{
+				"<leader>db",
+				function()
+					require("dap").step_back()
+				end,
+				desc = "Step Back",
+				nowait = true,
 			},
 			{
 				"<leader>dr",
@@ -66,11 +82,7 @@ return {
 					require("dap").repl.open()
 				end,
 				desc = "Open REPL",
-				{
-					nowait = true,
-					remap = false,
-				},
-				"n",
+				nowait = true,
 			},
 			{
 				"<leader>dl",
@@ -78,34 +90,51 @@ return {
 					require("dap").run_last()
 				end,
 				desc = "Run Last",
-				{
-					nowait = true,
-					remap = false,
-				},
-				"n",
+				nowait = true,
 			},
 			{
 				"<leader>dq",
 				function()
 					require("dap").terminate()
 					require("dapui").close()
-					require("nvim-dap-virtual-text").toggle()
 				end,
 				desc = "Terminate",
-				{
-					nowait = true,
-					remap = false,
-				},
-				"n",
+				nowait = true,
 			},
 			{
-				"<leader>db",
+				"<leader>dR",
 				function()
-					require("dap").list_breakpoints()
+					require("dap").restart()
 				end,
-				desc = "List Breakpoints",
+				desc = "Restart Debug Session",
 				nowait = true,
-				remap = false,
+			},
+			-- 悬浮窗口
+			{
+				"<leader>dH",
+				function()
+					require("dap.ui.widgets").hover()
+				end,
+				desc = "Hover Variables",
+				nowait = true,
+			},
+			{
+				"<leader>dP",
+				function()
+					local widgets = require("dap.ui.widgets")
+					widgets.centered_float(widgets.scopes)
+				end,
+				desc = "Show Scopes",
+				nowait = true,
+			},
+			-- UI 控制
+			{
+				"<leader>dui",
+				function()
+					require("dapui").toggle()
+				end,
+				desc = "Toggle Debug UI",
+				nowait = true,
 			},
 			{
 				"<leader>de",
@@ -114,7 +143,6 @@ return {
 				end,
 				desc = "Set Exception Breakpoints",
 				nowait = true,
-				remap = false,
 			},
 		},
 		dependencies = {
@@ -126,25 +154,88 @@ return {
 			local dap = require("dap")
 			local ui = require("dapui")
 			local virural_text = require("nvim-dap-virtual-text")
-			virural_text.setup()
 
-			dap.configurations = {
-				{
-					dlvFlags = { "--check-go-version=false" },
-					mode = "debug",
-					name = "Launch File",
-					program = function()
-						local path = vim.fn.input(vim.fn.getcwd() .. "/", "file")
-						print(path)
-						return path
-					end,
-					request = "launch",
-					type = "go",
+			-- 虚拟文本配置
+			virural_text.setup({
+				enabled = true,
+				enable_commands = true,
+				highlight_changed_variables = true,
+				highlight_new_as_changed = true,
+				show_stop_reason = true,
+				commented = false,
+				only_first_definition = true,
+				all_references = true,
+			})
+
+			-- UI 配置
+			ui.setup({
+				icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
+				mappings = {
+					expand = { "<CR>", "<2-LeftMouse>" },
+					open = "o",
+					remove = "d",
+					edit = "e",
+					repl = "r",
+					toggle = "t",
 				},
-			}
+				layouts = {
+					{
+						elements = {
+							{ id = "scopes", size = 0.25 },
+							{ id = "breakpoints", size = 0.25 },
+							{ id = "stacks", size = 0.25 },
+							{ id = "watches", size = 0.25 },
+						},
+						size = 40,
+						position = "left",
+					},
+					{
+						elements = {
+							{ id = "repl", size = 0.5 },
+							{ id = "console", size = 0.5 },
+						},
+						size = 10,
+						position = "bottom",
+					},
+				},
+				controls = {
+					enabled = true,
+					element = "repl",
+					icons = {
+						pause = "⏸",
+						play = "▶",
+						step_into = "⏎",
+						step_over = "⏭",
+						step_out = "⏮",
+						step_back = "b",
+						run_last = "▶▶",
+						terminate = "⏹",
+						disconnect = "⏏",
+					},
+				},
+				floating = {
+					max_height = nil,
+					max_width = nil,
+					border = "single",
+					mappings = {
+						close = { "q", "<Esc>" },
+					},
+				},
+				windows = { indent = 1 },
+				render = {
+					max_type_length = nil,
+					max_value_lines = 100,
+				},
+			})
 
-			ui.setup()
-			vim.fn.sign_define("DapBreakpoint", { text = "🐞" })
+			-- 断点符号配置
+			vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapBreakpointCondition", { text = "🟡", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapBreakpointRejected", { text = "⭕", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapLogPoint", { text = "📝", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapStopped", { text = "▶", texthl = "", linehl = "DapStoppedLine", numhl = "" })
+
+			-- 自动打开/关闭 UI
 			dap.listeners.before.attach.dapui_config = function()
 				ui.open()
 			end
@@ -157,18 +248,101 @@ return {
 			dap.listeners.before.event_exited.dapui_config = function()
 				ui.close()
 			end
+
+			-- Debug 会话开启时禁用 <leader>d 复制行映射，避免与 debug 快捷键冲突
+			local copy_line_mapping = nil
+			dap.listeners.before.launch.dap_disable_copy_line = function()
+				-- 保存当前映射
+				local mappings = vim.api.nvim_get_keymap("n")
+				for _, mapping in ipairs(mappings) do
+					if mapping.lhs == "<leader>d" then
+						copy_line_mapping = {
+							lhs = mapping.lhs,
+							rhs = mapping.rhs or mapping.callback,
+							opts = {
+								desc = mapping.desc,
+								silent = mapping.silent ~= 0,
+								noremap = mapping.noremap ~= 0,
+							},
+						}
+						break
+					end
+				end
+				-- 删除映射
+				vim.keymap.del("n", "<leader>d")
+			end
+			dap.listeners.before.attach.dap_disable_copy_line = function()
+				-- 保存当前映射
+				local mappings = vim.api.nvim_get_keymap("n")
+				for _, mapping in ipairs(mappings) do
+					if mapping.lhs == "<leader>d" then
+						copy_line_mapping = {
+							lhs = mapping.lhs,
+							rhs = mapping.rhs or mapping.callback,
+							opts = {
+								desc = mapping.desc,
+								silent = mapping.silent ~= 0,
+								noremap = mapping.noremap ~= 0,
+							},
+						}
+						break
+					end
+				end
+				-- 删除映射
+				vim.keymap.del("n", "<leader>d")
+			end
+			dap.listeners.before.event_terminated.dap_restore_copy_line = function()
+				-- 恢复映射
+				if copy_line_mapping then
+					vim.keymap.set("n", copy_line_mapping.lhs, copy_line_mapping.rhs, copy_line_mapping.opts)
+					copy_line_mapping = nil
+				end
+			end
+			dap.listeners.before.event_exited.dap_restore_copy_line = function()
+				-- 恢复映射
+				if copy_line_mapping then
+					vim.keymap.set("n", copy_line_mapping.lhs, copy_line_mapping.rhs, copy_line_mapping.opts)
+					copy_line_mapping = nil
+				end
+			end
+
+			-- 自动保存断点
+			-- vim.api.nvim_create_autocmd("BufWritePost", {
+			-- 	pattern = "*.go",
+			-- 	callback = function()
+			-- 		require("dap.breakpoints").save()
+			-- 	end,
+			-- })
 		end,
 	},
 	{
 		"leoluz/nvim-dap-go",
+		ft = { "go", "gomod" },
+		dependencies = { "mfussenegger/nvim-dap" },
+		keys = {
+			{
+				"<leader>dgt",
+				function()
+					require("dap-go").debug_test()
+				end,
+				desc = "Debug Nearest Test",
+				nowait = true,
+			},
+			{
+				"<leader>dgl",
+				function()
+					require("dap-go").debug_last_test()
+				end,
+				desc = "Debug Last Test",
+				nowait = true,
+			},
+		},
 		config = function()
 			require("dap-go").setup({
-				-- delve configurations
 				delve = {
 					path = "dlv",
 					initialize_timeout_sec = 20,
 					port = "${port}",
-					-- additional args to pass to dlv
 					args = {
 						"dap",
 						"-l",
@@ -181,9 +355,7 @@ return {
 					detached = vim.fn.has("win32") == 0,
 					cwd = nil,
 				},
-				-- options related to running closest test
 				tests = {
-					-- enables verbosity when running the test.
 					verbose = false,
 				},
 			})
