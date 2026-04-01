@@ -40,7 +40,7 @@ opt.termguicolors = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.g.tmux_navigator_no_mappings = 0
+vim.g.tmux_navigator_no_mappings = 1
 
 -- 折叠
 opt.foldenable = true

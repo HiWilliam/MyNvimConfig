@@ -12,16 +12,28 @@ km.set("n", "<leader>td", "<Esc><cmd>TodoList<Cr>", { silent = true, noremap = t
 km.set({ "n", "v" }, "<leader>/", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>")
 
 -- telescope (lazy loaded via keymaps)
-km.set("n", "<leader>a", "<cmd>Telescope<CR>", { desc = "Telescope" })
-km.set("n", "<leader>f", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
-km.set("n", "<leader>r", function() require("telescope.builtin").live_grep() end, { desc = "Live grep" })
-km.set("n", "<leader>b", function() require("telescope.builtin").buffers() end, { desc = "Buffers" })
-km.set("n", "<leader>o", function() require("telescope.builtin").oldfiles() end, { desc = "Old files" })
+--km.set("n", "<leader>a", "<cmd>Telescope<CR>", { desc = "Telescope" })
+km.set("n", "<leader>f", function()
+	require("telescope.builtin").find_files()
+end, { desc = "Find files" })
+km.set("n", "<leader>r", function()
+	require("telescope.builtin").live_grep()
+end, { desc = "Live grep" })
+km.set("n", "<leader>b", function()
+	require("telescope.builtin").buffers()
+end, { desc = "Buffers" })
+km.set("n", "<leader>o", function()
+	require("telescope.builtin").oldfiles()
+end, { desc = "Old files" })
 
 -- show the change blocks
 km.set("n", "<leader>gu", "<Esc><cmd> Gitsigns setqflist all open=false <CR> | <cmd>Telescope quickfix<CR>", {})
-km.set("n", "<leader>l", function() require("telescope.builtin").loclist() end, { desc = "Location list" })
-km.set("n", "<leader>q", function() require("telescope.builtin").diagnostics() end, { desc = "Diagnostics" })
+km.set("n", "<leader>l", function()
+	require("telescope.builtin").loclist()
+end, { desc = "Location list" })
+km.set("n", "<leader>q", function()
+	require("telescope.builtin").diagnostics()
+end, { desc = "Diagnostics" })
 
 km.set(
 	"n",
@@ -45,7 +57,12 @@ km.set(
 --km.set("n", "hn", "<Esc>:lua vim.opt.number=false vim.opt.relativenumber=false<CR>", { silent = true })
 --km.set("n", "sn", "<Esc>:lua vim.opt.number=true vim.opt.relativenumber=true<CR>", { silent = true })
 -- 语法信息弹窗显示，解决错误信息过长，显示不完整的问题
-km.set("n", "se", "<Esc>:lua vim.diagnostic.open_float(0, {scope='line'})<CR>", { silent = true, desc = "Show diagnostic float" })
+km.set(
+	"n",
+	"se",
+	"<Esc>:lua vim.diagnostic.open_float(0, {scope='line'})<CR>",
+	{ silent = true, desc = "Show diagnostic float" }
+)
 
 km.set("t", "<esc>", "<C-\\><C-n>", { noremap = true })
 km.set("t", "<C-h>", [[<C-\\><C-N><C-W>h]], { noremap = true, silent = true })
@@ -57,25 +74,25 @@ km.set(
 	{ "n", "i", "v" },
 	"<C-h>",
 	"<cmd>TmuxNavigateLeft<cr>",
-	{ remap = true, silent = true, desc = "Move to Left Window" }
+	{ noremap = true, silent = true, desc = "Move to Left Window" }
 )
 km.set(
 	{ "n", "i", "v" },
 	"<C-j>",
 	"<cmd>TmuxNavigateDown<cr>",
-	{ remap = true, silent = true, desc = "Move to Lower Window" }
+	{ noremap = true, silent = true, desc = "Move to Lower Window" }
 )
 km.set(
 	{ "n", "i", "v" },
 	"<C-k>",
 	"<cmd>TmuxNavigateUp<cr>",
-	{ remap = true, silent = true, desc = "Move to Upper Window" }
+	{ noremap = true, silent = true, desc = "Move to Upper Window" }
 )
 km.set(
 	{ "n", "i", "v" },
 	"<C-l>",
-	"<Esc><cmd>TmuxNavigateRight<cr>",
-	{ remap = true, silent = true, desc = "Move to Right Window" }
+	"<cmd>TmuxNavigateRight<cr>",
+	{ noremap = true, silent = true, desc = "Move to Right Window" }
 )
 
 km.set({ "n" }, "<leader>lt", "<cmd>LLMSessionToggle<cr>", { desc = "toggleAi会话", silent = true, noremap = true })
