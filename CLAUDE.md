@@ -42,7 +42,6 @@
 - `<leader>b` - 缓冲区列表
 - `<leader>nh` - 清除搜索高亮
 - `<leader>td` - 任务清单
-- `<leader>lt` - 切换 LLM AI
 - `<leader>ac` - 切换 Claude Code
 - `<leader>aa` / `<leader>ad` - 接受/拒绝 Claude 的 diff
 - `gi` / `gr` - LSP 实现/引用跳转
@@ -53,7 +52,7 @@
 
 - **插件管理**: lazy.nvim，配置文件位于 `lua/plugins/`
 - **LSP**: nvim-lspconfig + mason.nvim 管理语言服务器
-- **代码补全**: blink.cmp (支持 LSP、代码片段、缓冲区、LLM)
+- **代码补全**: blink.cmp (支持 LSP、代码片段、缓冲区)
 - **代码格式化**: none-ls.nvim (gofmt、goimports、stylua)
 - **主题**: Catppuccin
 - **文件树**: NvimTree

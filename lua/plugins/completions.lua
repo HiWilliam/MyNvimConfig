@@ -5,7 +5,6 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"onsails/lspkind.nvim",
 		"xzbdmw/colorful-menu.nvim",
-		"Kurama622/llm.nvim",
 		"saghen/blink.compat",
 	},
 
@@ -93,11 +92,6 @@ return {
 					cmp.show({ providers = { "buffer" } })
 				end,
 			},
-			["<C-y>"] = {
-				function(cmp)
-					cmp.show({ providers = { "llm" } })
-				end,
-			},
 		},
 
 		appearance = {
@@ -134,16 +128,8 @@ return {
 		},
 		signature = { enabled = true },
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "llm" },
-			providers = {
-				llm = {
-					name = "llm",
-					module = "llm.common.completion.frontends.blink",
-					timeout_ms = 10000,
-					score_offset = 100,
-					async = true,
-				},
-			},
+			default = { "lsp", "path", "snippets", "buffer" },
+			providers = {},
 		},
 
 		fuzzy = { implementation = "prefer_rust_with_warning" },

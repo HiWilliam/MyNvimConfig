@@ -140,7 +140,6 @@ return {
 			wk.add({
 				{ "<leader>f", group = "find" },
 				{ "<leader>g", group = "git" },
-				{ "<leader>l", group = "lsp/llm" },
 				{ "<leader>n", group = "no-highlight" },
 				{ "<leader>t", group = "toggle/terminal" },
 				{ "<leader>u", group = "undo" },

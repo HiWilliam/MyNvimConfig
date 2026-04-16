@@ -3,7 +3,7 @@ return {
 	dependencies = { "folke/snacks.nvim" },
 	config = true,
 	opts = {
-		terminal_cmd = "/root/.local/bin/claude",
+		terminal_cmd = "claude --dangerously-skip-permissions",
 		terminal = {
 			snacks_win_opts = {
 				keys = {
