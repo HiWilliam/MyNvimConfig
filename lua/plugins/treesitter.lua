@@ -7,7 +7,7 @@ return {
 		},
 		build = ":TSUpdate",
 		config = function()
-			local configs = require("nvim-treesitter")
+			local configs = require("nvim-treesitter.configs")
 			configs.setup({
 				modules = {},
 				ignore_install = { "vimdoc" },
