@@ -14,6 +14,8 @@ return {
 			-- 禁用 go.nvim 的 dap 功能，使用 nvim-dap-go
 			dap_debug = false,
 			dap_debug_keymap = false,
+			-- 禁用 go.nvim 的 codelens 功能（与 NVIM 0.11+ 不兼容）
+			lsp_codelens = false,
 		})
 
 		require("nvim-dap-virtual-text").setup()

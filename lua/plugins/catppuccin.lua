@@ -98,79 +98,108 @@ M.opts = function()
 	}
 
 	local colors = require("catppuccin.palettes").get_palette()
-		local user_colors = require("tools.colors").palette
-		colors.none = "NONE"
+	local user_colors = require("tools.colors").palette
+	colors.none = "NONE"
 
-		-- 方案八：完整综合配色
-		opts.custom_highlights = {
-			-- === 基础编辑器 ===
-			CursorLine = { bg = "#313244" },
-			Visual = { bg = "#45475A" },
-			Search = { fg = "#1E1E2E", bg = "#F9E2AF" },
-			IncSearch = { fg = "#1E1E2E", bg = "#F38BA8" },
-			Comment = { fg = "#6C7086", style = { "italic" } },
-			LineNr = { fg = "#6C7086" },
-			CursorLineNr = { fg = "#F9E2AF", style = { "bold" } },
+	-- 方案八：完整综合配色
+	opts.custom_highlights = {
+		-- === 基础编辑器 ===
+		CursorLine = { bg = "#313244" },
+		Visual = { bg = "#45475A" },
+		Search = { fg = "#1E1E2E", bg = "#F9E2AF" },
+		IncSearch = { fg = "#1E1E2E", bg = "#F38BA8" },
+		Comment = { fg = "#6C7086", style = { "italic" } },
+		LineNr = { fg = "#6C7086" },
+		CursorLineNr = { fg = "#F9E2AF", style = { "bold" } },
 
-			-- === Treesitter 语法高亮 ===
-			["@keyword"] = { fg = "#CBA6F7", style = { "italic" } },
-			["@function"] = { fg = "#89B4FA" },
-			["@method"] = { fg = "#89B4FA" },
-			["@string"] = { fg = "#A6E3A1" },
-			["@number"] = { fg = "#FAB387" },
-			["@type"] = { fg = "#F5C2E7" },
-			["@variable"] = { fg = "#CDD6F4" },
-			["@parameter"] = { fg = "#F9E2AF" },
-			["@property"] = { fg = "#94E2D5" },
-	
-			-- === LSP 诊断 ===
-			DiagnosticError = { fg = "#F38BA8" },
-			DiagnosticWarn = { fg = "#F9E2AF" },
-			DiagnosticInfo = { fg = "#89B4FA" },
-			DiagnosticHint = { fg = "#94E2D5" },
-			DiagnosticVirtualTextError = { bg = colors.none, fg = "#F38BA8" },
-			DiagnosticVirtualTextWarn = { bg = colors.none, fg = "#F9E2AF" },
-			DiagnosticVirtualTextInfo = { bg = colors.none, fg = "#89B4FA" },
-			DiagnosticVirtualTextHint = { bg = colors.none, fg = "#94E2D5" },
-	
-			-- === Git ===
-			DiffAdd = { bg = "#1E3A2F" },
-			DiffDelete = { bg = "#3A1E2F" },
-			DiffChange = { bg = "#2F2F3A" },
-			GitSignsAdd = { fg = "#A6E3A1" },
-			GitSignsChange = { fg = "#F9E2AF" },
-			GitSignsDelete = { fg = "#F38BA8" },
-	
-			-- === NvimTree ===
-			NvimTreeFolderIcon = { fg = "#89B4FA" },
-			NvimTreeFolderName = { fg = "#CDD6F4" },
-			NvimTreeGitDirty = { fg = "#F9E2AF" },
-			NvimTreeGitNew = { fg = "#A6E3A1" },
-			NvimTreeGitDeleted = { fg = "#F38BA8" },
-	
-			-- === Telescope ===
-			TelescopeBorder = { fg = "#89B4FA" },
-			TelescopeMatching = { fg = "#F9E2AF", style = { "bold" } },
-			TelescopeSelection = { bg = "#313244" },
-	
-			-- === BufferLine ===
-			BufferLineErrorSelected = { fg = user_colors.red, bold = true },
-			BufferLineWarningSelected = { fg = user_colors.yellow, bold = true },
-			BufferLineInfoSelected = { fg = user_colors.cyan, bold = true },
-		}
-	
-		-- 透明背景额外配置
-		if transbg then
-			opts.custom_highlights = vim.tbl_extend("force", opts.custom_highlights, {
-				Normal = { bg = colors.none },
-				NormalFloat = { bg = colors.none },
-				NormalNC = { bg = colors.none },
-				SignColumn = { bg = colors.none },
-				StatusLine = { bg = colors.none },
-				StatusLineNC = { bg = colors.none },
-				NvimTreeNormal = { bg = colors.none },
-				NvimTreeNormalNC = { bg = colors.none },
-			})
+		-- === Treesitter 语法高亮 ===
+		["@keyword"] = { fg = "#CBA6F7", style = { "italic" } },
+		["@keyword.function"] = { fg = "#CBA6F7", style = { "italic" } },
+		["@keyword.operator"] = { fg = "#89DCEB" },
+		["@keyword.return"] = { fg = "#F38BA8", style = { "italic" } },
+		["@keyword.import"] = { fg = "#F38BA8", style = { "italic" } },
+		["@keyword.package"] = { fg = "#F38BA8", style = { "italic" } },
+		["@function"] = { fg = "#89B4FA" },
+		["@function.method"] = { fg = "#89B4FA" },
+		["@function.call"] = { fg = "#89B4FA" },
+		["@method"] = { fg = "#89B4FA" },
+		["@method.call"] = { fg = "#89B4FA" },
+		["@constructor"] = { fg = "#F9E2AF" },
+		["@string"] = { fg = "#A6E3A1" },
+		["@string.regex"] = { fg = "#F5C2E7" },
+		["@number"] = { fg = "#FAB387" },
+		["@type"] = { fg = "#F5C2E7" },
+		["@type.builtin"] = { fg = "#F5C2E7", style = { "italic" } },
+		["@type.definition"] = { fg = "#F5C2E7", style = { "bold" } },
+		["@interface"] = { fg = "#94E2D5", style = { "bold" } },
+		["@struct"] = { fg = "#F5C2E7", style = { "bold" } },
+		["@variable"] = { fg = "#89B4FA" },
+		["@variable.builtin"] = { fg = "#F38BA8", style = { "italic" } },
+		["@parameter"] = { fg = "#F9E2AF" },
+		["@property"] = { fg = "#94E2D5" },
+		["@constant"] = { fg = "#FAB387", style = { "bold" } },
+		["@constant.builtin"] = { fg = "#FAB387" },
+
+		-- === LSP Semantic Tokens ===
+		LspSemanticVariable = { fg = "#89B4FA" },
+		LspSemanticParameter = { fg = "#F9E2AF" },
+		LspSemanticProperty = { fg = "#94E2D5" },
+		LspSemanticFunction = { fg = "#89B4FA" },
+		LspSemanticMethod = { fg = "#89B4FA" },
+		LspSemanticType = { fg = "#F5C2E7" },
+		LspSemanticKeyword = { fg = "#CBA6F7" },
+		LspSemanticString = { fg = "#A6E3A1" },
+		LspSemanticNumber = { fg = "#FAB387" },
+		LspSemanticComment = { fg = "#6C7086", style = { "italic" } },
+
+		-- === LSP 诊断 ===
+		DiagnosticError = { fg = "#F38BA8" },
+		DiagnosticWarn = { fg = "#F9E2AF" },
+		DiagnosticInfo = { fg = "#89B4FA" },
+		DiagnosticHint = { fg = "#94E2D5" },
+		DiagnosticVirtualTextError = { bg = colors.none, fg = "#F38BA8" },
+		DiagnosticVirtualTextWarn = { bg = colors.none, fg = "#F9E2AF" },
+		DiagnosticVirtualTextInfo = { bg = colors.none, fg = "#89B4FA" },
+		DiagnosticVirtualTextHint = { bg = colors.none, fg = "#94E2D5" },
+
+		-- === Git ===
+		DiffAdd = { bg = "#1E3A2F" },
+		DiffDelete = { bg = "#3A1E2F" },
+		DiffChange = { bg = "#2F2F3A" },
+		GitSignsAdd = { fg = "#A6E3A1" },
+		GitSignsChange = { fg = "#F9E2AF" },
+		GitSignsDelete = { fg = "#F38BA8" },
+
+		-- === NvimTree ===
+		NvimTreeFolderIcon = { fg = "#89B4FA" },
+		NvimTreeFolderName = { fg = "#CDD6F4" },
+		NvimTreeGitDirty = { fg = "#F9E2AF" },
+		NvimTreeGitNew = { fg = "#A6E3A1" },
+		NvimTreeGitDeleted = { fg = "#F38BA8" },
+
+		-- === Telescope ===
+		TelescopeBorder = { fg = "#89B4FA" },
+		TelescopeMatching = { fg = "#F9E2AF", style = { "bold" } },
+		TelescopeSelection = { bg = "#313244" },
+
+		-- === BufferLine ===
+		BufferLineErrorSelected = { fg = user_colors.red, bold = true },
+		BufferLineWarningSelected = { fg = user_colors.yellow, bold = true },
+		BufferLineInfoSelected = { fg = user_colors.cyan, bold = true },
+	}
+
+	-- 透明背景额外配置
+	if transbg then
+		opts.custom_highlights = vim.tbl_extend("force", opts.custom_highlights, {
+			Normal = { bg = colors.none },
+			NormalFloat = { bg = colors.none },
+			NormalNC = { bg = colors.none },
+			SignColumn = { bg = colors.none },
+			StatusLine = { bg = colors.none },
+			StatusLineNC = { bg = colors.none },
+			NvimTreeNormal = { bg = colors.none },
+			NvimTreeNormalNC = { bg = colors.none },
+		})
 	end
 
 	return opts

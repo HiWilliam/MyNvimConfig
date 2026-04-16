@@ -1,14 +1,26 @@
 return {
 	-- lazy.nvim
 	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
+	"folke/noice.nvim",
+	event = "VeryLazy",
+	opts = {},
+	dependencies = {
+		"MunifTanjim/nui.nvim",
+		"rcarriga/nvim-notify",
+	},
+	keys = {
+		{
+			"<Leader>nl",
+			"<cmd>Noice history<cr>",
+			"查看 noice 通知历史",
 		},
-		config = function()
+		{
+			"<Leader>nd",
+			"<cmd>Noice dismiss<cr>",
+			"关闭 noice 通知",
+		},
+	},
+	config = function()
 			require("noice").setup({
 				lsp = {
 					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -41,17 +53,28 @@ return {
 				"<Leader>un",
 				function()
 					local notify = require("notify")
-					notify.dismiss({ slient = true, pending = true })
+					notify.dismiss({ silent = true, pending = true })
 				end,
 				"",
 			},
+			{
+				"<Leader>uh",
+				function()
+					local notify = require("notify")
+					notify.history()
+				end,
+				"查看通知历史",
+			},
 		},
 		config = function()
-			require("notify").setup({
+			local notify = require("notify")
+			notify.setup({
 				render = "minimal", -- 或 "default"、"wrapped"
 				stages = "fade_in_slide_out",
 				timeout = 3000,
 			})
+			-- 设置全局变量保留历史通知
+			vim.g.notify_history = true
 		end,
 	},
 	{

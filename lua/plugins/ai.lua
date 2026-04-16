@@ -4,8 +4,21 @@ return {
 	config = true,
 	opts = {
 		terminal_cmd = "claude --dangerously-skip-permissions",
+		diff_opts = {
+			layout = "horizontal", -- diff 布局：vertical 或 horizontal
+			open_in_new_tab = true, -- 不在新标签页打开 diff
+			keep_terminal_focus = false, -- false = 打开 diff 后光标留在代码 buffer
+			hide_terminal_in_new_tab = true,
+			on_new_file_reject = "keep_empty",
+		},
 		terminal = {
+			-- 使用浮动窗口模式 (类似独立 buf)
 			snacks_win_opts = {
+				position = "float", -- 浮动模式，而非侧边分屏
+				width = 0.8, -- 窗口宽度 80%
+				height = 0.8, -- 窗口高度 80%
+				border = "rounded", -- 圆角边框
+				backdrop = 80, -- 背景透明度
 				keys = {
 					-- 退出输入模式
 					quit_insert = {
