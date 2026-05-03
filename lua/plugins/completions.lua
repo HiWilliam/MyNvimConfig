@@ -9,7 +9,7 @@ return {
 	},
 
 	version = "1.*",
-	build = "cargo +nightly build --release -Znext-lockfile-bump",
+	build = "rustup run stable cargo build --release",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {

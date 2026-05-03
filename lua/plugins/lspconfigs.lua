@@ -136,6 +136,13 @@ return {
             })
             vim.lsp.enable("gopls")
 
+            vim.lsp.config("ts_ls", {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+            })
+            vim.lsp.enable("ts_ls")
+
             vim.lsp.config("buf_ls", {
                 cmd = { "buf", "beta", "lsp" },
                 filetypes = { "proto" },
@@ -146,6 +153,7 @@ return {
                     },
                 },
             })
+
         end,
     },
 }
