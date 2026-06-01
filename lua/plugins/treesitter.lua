@@ -7,8 +7,12 @@ return {
 		},
 		build = ":TSUpdate",
 		config = function()
-			local configs = require("nvim-treesitter.configs")
-			configs.setup({
+			-- 高亮
+			vim.treesitter.language.register("go", "gomod")
+			vim.treesitter.language.register("go", "gosum")
+
+			-- 基本设置
+			require("nvim-treesitter").setup({
 				modules = {},
 				ignore_install = { "vimdoc" },
 				auto_install = true,
@@ -18,9 +22,7 @@ return {
 					enable = true,
 					additional_vim_regex_highlighting = false,
 				},
-				locals = {
-					enable = true,
-				},
+				indent = { enable = true },
 				incremental_selection = {
 					enable = true,
 					keymaps = {
@@ -28,16 +30,6 @@ return {
 						node_incremental = "grn",
 						scope_incremental = "grc",
 						node_decremental = "grm",
-					},
-				},
-				indent = { enable = true },
-				textobjects = {
-					enable = true,
-					lsp_interp = {
-						enable = true,
-						peek_definition_code = {
-							["DF"] = "@function.outer",
-						},
 					},
 				},
 			})

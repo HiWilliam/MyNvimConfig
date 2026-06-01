@@ -93,7 +93,8 @@ end, {})
 --- 使用 Telescope 选择 Go 进程并 Attach 调试
 local function telescope_pick_go_process()
 	-- 获取当前项目名称作为过滤条件
-	local project_name = vim.trim(vim.fn.system("git rev-parse --show-toplevel 2>/dev/null | xargs basename 2>/dev/null"))
+	local project_name =
+		vim.trim(vim.fn.system("git rev-parse --show-toplevel 2>/dev/null | xargs basename 2>/dev/null"))
 
 	-- 构建进程列表命令
 	local cmd
@@ -193,5 +194,18 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.bo[args.buf].modifiable = false -- 不可修改
 		vim.bo[args.buf].swapfile = false -- 禁止交换文件
 		vim.bo[args.buf].bufhidden = "wipe" -- 关闭时自动清除
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "go", "javascript", "lua" },
+	callback = function()
+		-- syntax highlighting, provided by Neovim
+		vim.treesitter.start()
+		-- folds, provided by Neovim
+		--vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		-- vim.wo.foldmethod = "expr"
+		-- indentation, provided by nvim-treesitter
+		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 	end,
 })

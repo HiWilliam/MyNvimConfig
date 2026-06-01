@@ -28,6 +28,9 @@ end, { desc = "Old files" })
 
 -- show the change blocks
 km.set("n", "<leader>gu", "<Esc><cmd> Gitsigns setqflist all open=false <CR> | <cmd>Telescope quickfix<CR>", {})
+km.set("n", "<leader>gs", function()
+	require("telescope.builtin").git_status()
+end, { desc = "Git status" })
 km.set("n", "<leader>l", function()
 	require("telescope.builtin").loclist()
 end, { desc = "Location list" })

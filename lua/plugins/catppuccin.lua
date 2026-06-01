@@ -148,6 +148,7 @@ M.opts = function()
 		LspSemanticMethod = { fg = "#89B4FA" },
 		LspSemanticType = { fg = "#F5C2E7" },
 		LspSemanticKeyword = { fg = "#CBA6F7" },
+		LspSemanticConstant = { fg = "#FAB387", style = { "bold" } },
 		LspSemanticString = { fg = "#A6E3A1" },
 		LspSemanticNumber = { fg = "#FAB387" },
 		LspSemanticComment = { fg = "#6C7086", style = { "italic" } },

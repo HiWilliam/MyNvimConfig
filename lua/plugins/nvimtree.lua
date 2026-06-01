@@ -18,6 +18,9 @@ return {
 					enable = true,
 				},
 			},
+			filters = {
+				git_ignored = false,
+			},
 			renderer = {
 				root_folder_label = false,
 				highlight_opened_files = "none",
