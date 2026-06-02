@@ -2,12 +2,7 @@ return {
 	{
 		"HiWilliam/whid",
 		config = function()
-			local basename = vim.trim(vim.fn.system("git rev-parse --show-toplevel | xargs basename"))
-			local save_file = "/wuhao/workspace/todos.json"
-			if basename == "whid" then
-				save_file = "/wuhao/workspace/default.json"
-			end
-			require("whid").setup({ save_file = save_file })
+			require("whid").setup({})
 		end,
 	},
 	{
