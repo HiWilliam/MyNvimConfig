@@ -54,17 +54,31 @@ return {
 			"LazyGitFilter",
 			"LazyGitFilterCurrentFile",
 		},
-		-- optional for floating window border decoration
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
 		},
 		keys = {
-			{ "<leader>g", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+			{
+				"<leader>g",
+				function()
+					vim.cmd("LazyGit")
+					-- 锁定浮窗 buffer 为不可修改，防止 vim.schedule 延迟期间按键污染 buffer
+					-- 导致 jobstart({term=true}) 报 "requires unmodified buffer"
+					if vim.bo.filetype == "lazygit" then
+						vim.bo.buflisted = false
+						vim.bo.modifiable = false
+						-- 延迟解锁: jobstart 执行后会自动接管 buffer
+						vim.defer_fn(function()
+							if vim.api.nvim_buf_is_valid(0) then
+								vim.bo.modifiable = true
+							end
+						end, 100)
+					end
+				end,
+				desc = "LazyGit",
+			},
 		},
-		config = function()
-			require("telescope").load_extension("lazygit")
-		end,
+		config = function() end,
 	},
 	{
 		"sindrets/diffview.nvim",

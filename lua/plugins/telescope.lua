@@ -2,6 +2,7 @@ return {
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+		"kdheepak/lazygit.nvim",
 	},
 	config = function()
 		-- dont preview binary file
@@ -49,5 +50,9 @@ return {
 				buffer_previewer_maker = new_maker,
 			},
 		})
+		-- Load lazygit extension for :Telescope lazygit
+		pcall(function()
+			require("telescope").load_extension("lazygit")
+		end)
 	end,
 }
