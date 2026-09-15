@@ -122,7 +122,7 @@ return {
 	},
 	-- OpenAI Codex CLI integration
 	{
-		"kkrampis/codex.nvim",
+		"johnseth97/codex.nvim",
 		lazy = true,
 		cmd = { "Codex", "CodexToggle" },
 		keys = {
@@ -149,7 +149,10 @@ return {
 			use_buffer = false, -- 使用终端 buffer
 		},
 		config = function(_, opts)
-			require("codex").setup(opts)
+			require("codex").setup({
+				cmd = { "codex", "--yolo" },
+				opts = opts,
+			})
 
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "codex",
@@ -164,9 +167,19 @@ return {
 					-- Terminal 模式: <Esc> 直接发送给 Codex CLI (而非退出终端模式)
 					vim.keymap.set("t", "<Esc>", "<Esc>", { buffer = buf, silent = true, desc = "Send Esc to Codex" })
 					-- Terminal 模式: <C-c> 退出到 Normal 模式 (而非发送 SIGINT 给 Codex 进程)
-					vim.keymap.set("t", "<C-c>", "<C-\\><C-N>", { buffer = buf, noremap = true, silent = true, desc = "Exit to Normal mode" })
+					vim.keymap.set(
+						"t",
+						"<C-c>",
+						"<C-\\><C-N>",
+						{ buffer = buf, noremap = true, silent = true, desc = "Exit to Normal mode" }
+					)
 					-- Terminal 模式: 空格直接发送给底层进程，避免 leader 键等待超时
-					vim.keymap.set("t", "<Space>", "<Space>", { buffer = buf, silent = true, desc = "Send Space to Codex" })
+					vim.keymap.set(
+						"t",
+						"<Space>",
+						"<Space>",
+						{ buffer = buf, silent = true, desc = "Send Space to Codex" }
+					)
 				end,
 			})
 		end,

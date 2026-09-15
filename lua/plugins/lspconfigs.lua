@@ -19,7 +19,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "gopls", "vimls" },
+				ensure_installed = { "lua_ls", "gopls", "vimls", "bashls" },
 			})
 		end,
 	},
@@ -135,6 +135,13 @@ return {
 				},
 			})
 			vim.lsp.enable("gopls")
+
+			vim.lsp.config("bashls", {
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = { "sh", "bash", "zsh", "ksh" },
+			})
+			vim.lsp.enable("bashls")
 
 			local cwd = vim.fn.getcwd()
 			vim.lsp.config("protols", {
