@@ -19,17 +19,23 @@ end, { desc = "Find files" })
 km.set("n", "<leader>r", function()
 	require("telescope.builtin").live_grep({
 		attach_mappings = function(prompt_bufnr, map)
-			-- <C-q>: 全部命中写入 quickfix，并用 trouble 面板常驻展示
-			map({ "i", "n" }, "<C-q>", function()
+			-- <M-q>: 全部命中写入 quickfix，并用 trouble 面板常驻展示
+			map({ "i", "n" }, "<M-q>", function()
 				require("telescope.actions").send_to_qflist(prompt_bufnr)
 				vim.schedule(function()
-					require("trouble").open({ mode = "qflist" })
+					-- 走 :Trouble 命令，确保 lazy.nvim 的 trouble 能被正确加载
+					vim.cmd("Trouble qflist")
 				end)
 			end)
 			return true
 		end,
 	})
 end, { desc = "Live grep" })
+-- 历史搜索结果：每次 <leader>r + <M-q> 都是一份独立的 quickfix 列表
+-- 面板里再用 <C-p>/<C-n> 在这份 quickfix 栈里前后翻
+km.set("n", "<leader>R", function()
+	require("tools.qf").picker()
+end, { desc = "搜索结果历史" })
 km.set("n", "<leader>b", function()
 	require("telescope.builtin").buffers()
 end, { desc = "Buffers" })

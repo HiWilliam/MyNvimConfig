@@ -38,7 +38,8 @@
 
 - `<leader>a` - Telescope 主菜单
 - `<leader>f` - 搜索文件
-- `<leader>r` - 全局搜索
+- `<leader>r` - 全局搜索（`<M-q>` 把命中写入 quickfix 并用 Trouble 展示）
+- `<leader>R` - 历史搜索结果（quickfix 栈）浏览
 - `<leader>b` - 缓冲区列表
 - `<leader>nh` - 清除搜索高亮
 - `<leader>td` - 任务清单
