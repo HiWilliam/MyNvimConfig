@@ -43,7 +43,8 @@
 - `<leader>nh` - 清除搜索高亮
 - `<leader>td` - 任务清单
 - `<leader>ac` - 切换 Claude Code
-- `<leader>aa` / `<leader>ad` - 接受/拒绝 Claude 的 diff
+- `<leader>aa` / `<leader>aD` - 接受/拒绝 Claude 的 diff
+- `<leader>ad` - 浮动终端打开 dst (dsh-tui)，再次按下收起
 - `gi` / `gr` - LSP 实现/引用跳转
 - `se` - 显示诊断悬浮窗
 - `<C-h/j/k/l>` - tmux 窗口导航

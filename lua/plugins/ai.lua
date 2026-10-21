@@ -117,7 +117,7 @@ return {
 			},
 			-- Diff management
 			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+			{ "<leader>aD", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 		},
 	},
 	-- OpenAI Codex CLI integration
@@ -153,7 +153,6 @@ return {
 				cmd = { "codex", "--yolo" },
 				opts = opts,
 			})
-
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "codex",
 				callback = function(event)

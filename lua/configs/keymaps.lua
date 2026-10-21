@@ -17,7 +17,18 @@ km.set("n", "<leader>f", function()
 	require("telescope.builtin").find_files()
 end, { desc = "Find files" })
 km.set("n", "<leader>r", function()
-	require("telescope.builtin").live_grep()
+	require("telescope.builtin").live_grep({
+		attach_mappings = function(prompt_bufnr, map)
+			-- <C-q>: 全部命中写入 quickfix，并用 trouble 面板常驻展示
+			map({ "i", "n" }, "<C-q>", function()
+				require("telescope.actions").send_to_qflist(prompt_bufnr)
+				vim.schedule(function()
+					require("trouble").open({ mode = "qflist" })
+				end)
+			end)
+			return true
+		end,
+	})
 end, { desc = "Live grep" })
 km.set("n", "<leader>b", function()
 	require("telescope.builtin").buffers()
@@ -97,3 +108,8 @@ km.set(
 	"<cmd>TmuxNavigateRight<cr>",
 	{ noremap = true, silent = true, desc = "Move to Right Window" }
 )
+
+-- dst（dsh-tui）浮动终端，再次按下收起
+km.set("n", "<leader>ad", function()
+	require("tools.dst").toggle()
+end, { silent = true, desc = "Open dst (float)" })
